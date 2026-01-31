@@ -12,6 +12,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  AuthError
+} from "firebase/auth"
+import { auth, googleProvider } from "@/lib/firebase"
+import { Loader2 } from "lucide-react"
 
 interface AuthModalProps {
   isOpen: boolean
@@ -25,11 +33,58 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle auth logic here
-    console.log('Auth submit:', { mode, email, password })
+    setError(null)
+    setLoading(true)
+
+    try {
+      if (mode === 'signup') {
+        if (password !== confirmPassword) {
+          throw new Error("Passwords do not match")
+        }
+        await createUserWithEmailAndPassword(auth, email, password)
+      } else {
+        await signInWithEmailAndPassword(auth, email, password)
+      }
+      onClose()
+    } catch (err: any) {
+      console.error(err)
+      if (err.message === "Passwords do not match") {
+        setError(err.message)
+      } else {
+        const authError = err as AuthError
+        // Simple error mapping
+        if (authError.code === 'auth/invalid-credential') {
+          setError("Invalid email or password")
+        } else if (authError.code === 'auth/email-already-in-use') {
+          setError("Email already in use")
+        } else if (authError.code === 'auth/weak-password') {
+          setError("Password should be at least 6 characters")
+        } else {
+          setError("Authentication failed. Please try again.")
+        }
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleSignIn = async () => {
+    setError(null)
+    setLoading(true)
+    try {
+      await signInWithPopup(auth, googleProvider)
+      onClose()
+    } catch (err) {
+      console.error(err)
+      setError("Google sign in failed. Please try again.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -44,6 +99,12 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
           </DialogDescription>
         </DialogHeader>
 
+        {error && (
+          <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="email">{t('email')}</Label>
@@ -54,6 +115,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               required
+              disabled={loading}
             />
           </div>
 
@@ -75,6 +137,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
 
@@ -87,12 +150,13 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                disabled={loading}
               />
             </div>
           )}
 
-          <Button type="submit" className="w-full gradient-primary">
-            {mode === 'signin' ? t('signInTitle').split(' ')[0] : t('signUp')}
+          <Button type="submit" className="w-full gradient-primary" disabled={loading}>
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : (mode === 'signin' ? t('signInTitle').split(' ')[0] : t('signUp'))}
           </Button>
         </form>
 
@@ -108,7 +172,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
         </div>
 
         <div className="grid grid-cols-2 gap-4 py-4">
-          <Button variant="outline" type="button" className="w-full">
+          <Button variant="outline" type="button" className="w-full" onClick={handleGoogleSignIn} disabled={loading}>
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -129,9 +193,9 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
             </svg>
             {t('google')}
           </Button>
-          <Button variant="outline" type="button" className="w-full">
+          <Button variant="outline" type="button" className="w-full" disabled={loading}>
             <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
+              <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" />
             </svg>
             {t('apple')}
           </Button>
@@ -145,6 +209,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
                 type="button"
                 className="text-primary hover:underline font-medium"
                 onClick={() => setMode('signup')}
+                disabled={loading}
               >
                 {t('signUp')}
               </button>
@@ -156,6 +221,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
                 type="button"
                 className="text-primary hover:underline font-medium"
                 onClick={() => setMode('signin')}
+                disabled={loading}
               >
                 {t('signInTitle').split(' ')[0]}
               </button>

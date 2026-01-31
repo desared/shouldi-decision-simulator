@@ -7,7 +7,7 @@ import { OutcomeBar } from "@/components/outcome-bar"
 import { ArrowLeft, Play, RefreshCw, TrendingUp, TrendingDown, Minus } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-interface Factor {
+export interface Factor {
   id: string
   label: string
   value: number
@@ -16,7 +16,7 @@ interface Factor {
   unit?: string
 }
 
-interface Outcome {
+export interface Outcome {
   id: string
   label: string
   value: number
@@ -31,13 +31,15 @@ interface SimulationPanelProps {
   factors: Factor[]
   outcomes: Outcome[]
   onBack: () => void
+  onSave?: (factors: Factor[], outcomes: Outcome[]) => void
 }
 
-export function SimulationPanel({ title, description, factors: initialFactors, outcomes: initialOutcomes, onBack }: SimulationPanelProps) {
+export function SimulationPanel({ title, description, factors: initialFactors, outcomes: initialOutcomes, onBack, onSave }: SimulationPanelProps) {
   const [factors, setFactors] = useState(initialFactors)
   const [outcomes, setOutcomes] = useState(initialOutcomes)
   const [isSimulating, setIsSimulating] = useState(false)
   const [hasRun, setHasRun] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   const handleFactorChange = (id: string, value: number[]) => {
     setFactors((prev) =>
@@ -48,24 +50,55 @@ export function SimulationPanel({ title, description, factors: initialFactors, o
   const runSimulation = () => {
     setIsSimulating(true)
     setTimeout(() => {
-      // Simulate outcome changes based on factors
+      // Calculate a score based on the input factors (linear correlation)
+      // Normalize each factor to 0-1 range and take the average
+      const totalScore = factors.reduce((acc, factor) => {
+        const normalizedValue = (factor.value - factor.min) / (factor.max - factor.min)
+        return acc + normalizedValue
+      }, 0)
+
+      const averageScore = totalScore / factors.length
+
+      // Update outcomes based on the calculated score
       setOutcomes((prev) =>
-        prev.map((o) => ({
-          ...o,
-          value: Math.min(100, Math.max(0, o.value + Math.floor(Math.random() * 20 - 10))),
-          rangeMin: Math.max(0, o.rangeMin + Math.floor(Math.random() * 10 - 5)),
-          rangeMax: Math.min(100, o.rangeMax + Math.floor(Math.random() * 10 - 5)),
-        }))
+        prev.map((o) => {
+          // Map average score (0-1) to outcome value (0-100)
+          // Add a small random variance (+/- 5) so it's not perfectly linear
+          const baseValue = averageScore * 100
+          const variance = Math.random() * 10 - 5
+          const newValue = Math.min(100, Math.max(0, Math.round(baseValue + variance)))
+
+          let trend: "up" | "down" | "stable" = "stable"
+          if (newValue > o.value) trend = "up"
+          if (newValue < o.value) trend = "down"
+
+          return {
+            ...o,
+            value: newValue,
+            trend: trend,
+            // Adjust confidence range around the new value
+            rangeMin: Math.max(0, newValue - 5),
+            rangeMax: Math.min(100, newValue + 5),
+          }
+        })
       )
       setIsSimulating(false)
       setHasRun(true)
-    }, 1500)
+    }, 1000)
   }
 
   const resetSimulation = () => {
     setFactors(initialFactors)
     setOutcomes(initialOutcomes)
     setHasRun(false)
+  }
+
+  const handleSave = async () => {
+    if (onSave) {
+      setIsSaving(true)
+      await onSave(factors, outcomes)
+      setIsSaving(false)
+    }
   }
 
   const TrendIcon = ({ trend }: { trend: "up" | "down" | "stable" }) => {
@@ -135,9 +168,19 @@ export function SimulationPanel({ title, description, factors: initialFactors, o
               )}
             </Button>
             {hasRun && (
-              <Button variant="outline" onClick={resetSimulation}>
-                Reset
-              </Button>
+              <>
+                <Button
+                  variant="default"
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="gradient-primary text-white"
+                >
+                  {isSaving ? "Saving..." : "Save Calculation"}
+                </Button>
+                <Button variant="outline" onClick={resetSimulation}>
+                  Reset
+                </Button>
+              </>
             )}
           </div>
         </div>

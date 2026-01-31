@@ -1,5 +1,5 @@
 "use client"
-
+import { User } from "firebase/auth"
 import { useState } from "react"
 import { useTranslations } from 'next-intl'
 import { ArrowLeft, RotateCcw, TrendingUp, TrendingDown, Minus, Trophy, Clock } from "lucide-react"
@@ -33,6 +33,7 @@ interface SimulationPanelProps {
   outcomes: Outcome[]
   onBack: () => void
   onSignUp: () => void
+  user: User | null
 }
 
 export function SimulationPanelTranslated({
@@ -42,6 +43,7 @@ export function SimulationPanelTranslated({
   outcomes: initialOutcomes,
   onBack,
   onSignUp,
+  user
 }: SimulationPanelProps) {
   const t = useTranslations('simulation')
   const tDecision = useTranslations('decisionScore')
@@ -291,7 +293,8 @@ export function SimulationPanelTranslated({
       </div>
 
       {/* More Simulations CTA */}
-      <MoreSimulationsSection onSignUp={onSignUp} />
+      {/* More Simulations CTA - Only show if not logged in */}
+      {!user && <MoreSimulationsSection onSignUp={onSignUp} />}
     </div>
   )
 }

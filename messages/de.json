@@ -63,7 +63,10 @@
     "hoursReduced": "Reduzierte Stunden pro Woche",
     "incomeReduction": "Einkommensreduzierung",
     "sideProjects": "Zeit für Nebenprojekte",
-    "healthFocus": "Gesundheits- & Wellness-Fokus"
+    "healthFocus": "Gesundheits- & Wellness-Fokus",
+    "propertyPrice": "Immobilienpreis",
+    "interestRate": "Zinssatz",
+    "marketGrowth": "Marktwachstum jährlich"
   },
   "outcomes": {
     "financialStability": "Finanzielle Stabilität (5 Jahre)",
@@ -82,6 +85,9 @@
     "healthEnergy": "Gesundheit & Energie",
     "relationshipQuality": "Beziehungsqualität",
     "productivityPerHour": "Produktivität pro Stunde",
+    "netWorth10y": "Nettovermögen (10 Jahre)",
+    "monthlyCashflow": "Auswirkung auf Cashflow",
+    "flexibilityScore": "Flexibilitäts-Score",
     "decisionScore": "Entscheidungs-Score"
   },
   "simulation": {

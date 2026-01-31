@@ -47,7 +47,7 @@ export function SearchAutocomplete({
       icon: Home,
       titleKey: 'buyRent.title',
       descriptionKey: 'buyRent.description',
-      premium: true,
+      premium: false,
       keywords: ['buy', 'rent', 'house', 'home', 'apartment', 'kaufen', 'mieten', 'haus', 'wohnung', 'immobilie']
     },
     {
@@ -62,12 +62,12 @@ export function SearchAutocomplete({
 
   const filteredScenarios = value.trim()
     ? scenarios.filter(s => {
-        const searchLower = value.toLowerCase()
-        const title = t(s.titleKey).toLowerCase()
-        const description = t(s.descriptionKey).toLowerCase()
-        const keywordMatch = s.keywords.some(k => k.includes(searchLower) || searchLower.includes(k))
-        return title.includes(searchLower) || description.includes(searchLower) || keywordMatch
-      })
+      const searchLower = value.toLowerCase()
+      const title = t(s.titleKey).toLowerCase()
+      const description = t(s.descriptionKey).toLowerCase()
+      const keywordMatch = s.keywords.some(k => k.includes(searchLower) || searchLower.includes(k))
+      return title.includes(searchLower) || description.includes(searchLower) || keywordMatch
+    })
     : scenarios
 
   useEffect(() => {
@@ -152,37 +152,35 @@ export function SearchAutocomplete({
             <p className="px-3 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wide">
               {t('suggestions')}
             </p>
-            <div className="max-h-64 overflow-y-auto">
-            {filteredScenarios.map((scenario, index) => (
-              <button
-                key={scenario.id}
-                onClick={() => handleSelect(scenario)}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors ${
-                  highlightedIndex === index
-                    ? 'bg-primary/10'
-                    : 'hover:bg-secondary/50'
-                }`}
-              >
-                <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${
-                  scenario.premium ? 'bg-accent/10 text-accent' : 'bg-primary/10 text-primary'
-                }`}>
-                  <scenario.icon className="h-5 w-5" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-foreground truncate">
-                    {t(scenario.titleKey)}
-                  </p>
-                  <p className="text-sm text-muted-foreground truncate">
-                    {t(scenario.descriptionKey)}
-                  </p>
-                </div>
-                {scenario.premium && (
-                  <span className="text-xs font-medium text-accent bg-accent/10 px-2 py-1 rounded-full">
-                    {t('premium')}
-                  </span>
-                )}
-              </button>
-            ))}
+            <div className="max-h-80 overflow-y-auto">
+              {filteredScenarios.map((scenario, index) => (
+                <button
+                  key={scenario.id}
+                  onClick={() => handleSelect(scenario)}
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors ${highlightedIndex === index
+                      ? 'bg-primary/10'
+                      : 'hover:bg-secondary/50'
+                    }`}
+                >
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${scenario.premium ? 'bg-accent/10 text-accent' : 'bg-primary/10 text-primary'
+                    }`}>
+                    <scenario.icon className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-foreground truncate">
+                      {t(scenario.titleKey)}
+                    </p>
+                    <p className="text-sm text-muted-foreground truncate">
+                      {t(scenario.descriptionKey)}
+                    </p>
+                  </div>
+                  {scenario.premium && (
+                    <span className="text-xs font-medium text-accent bg-accent/10 px-2 py-1 rounded-full">
+                      {t('premium')}
+                    </span>
+                  )}
+                </button>
+              ))}
             </div>
             {filteredScenarios.length === 0 && (
               <p className="px-3 py-4 text-sm text-muted-foreground text-center">

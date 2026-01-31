@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useTranslations } from 'next-intl'
+import { useRouter, useParams } from 'next/navigation'
 import { Sparkles, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { LanguageSwitcher } from "@/components/language-switcher"
@@ -17,6 +18,8 @@ import { FAQSection } from "@/components/sections/faq-section"
 import { CTASection } from "@/components/sections/cta-section"
 import { FooterSection } from "@/components/sections/footer-section"
 import { SimulationPanelTranslated } from "@/components/simulation-panel-translated"
+import { onAuthStateChanged, signOut, User } from "firebase/auth"
+import { auth } from "@/lib/firebase"
 
 export default function LifePathSimulator() {
   const tCommon = useTranslations('common')
@@ -24,6 +27,8 @@ export default function LifePathSimulator() {
   const tFactors = useTranslations('factors')
   const tOutcomes = useTranslations('outcomes')
   const tScenarios = useTranslations('scenarios')
+  const router = useRouter()
+  const params = useParams()
 
   const scenarios = [
     {
@@ -62,12 +67,49 @@ export default function LifePathSimulator() {
         { id: "decision-score", labelKey: "decisionScore", value: 68, rangeMin: 55, rangeMax: 80, trend: "up" as const },
       ],
     },
+    {
+      id: "buy-rent",
+      titleKey: "buyRent.title",
+      descriptionKey: "buyRent.description",
+      factors: [
+        { id: "property-price", labelKey: "propertyPrice", value: 50, min: 0, max: 1000, unit: "k" },
+        { id: "interest-rate", labelKey: "interestRate", value: 5, min: 1, max: 10, unit: "%" },
+        { id: "rent-cost", labelKey: "monthlyRent", value: 20, min: 5, max: 50, unit: "00" },
+        { id: "market-growth", labelKey: "marketGrowth", value: 3, min: -2, max: 10, unit: "%" },
+      ],
+      outcomes: [
+        { id: "net-worth", labelKey: "netWorth10y", value: 60, rangeMin: 40, rangeMax: 80, trend: "up" as const },
+        { id: "monthly-cashflow", labelKey: "monthlyCashflow", value: 45, rangeMin: 30, rangeMax: 60, trend: "down" as const },
+        { id: "flexibility", labelKey: "flexibilityScore", value: 30, rangeMin: 10, rangeMax: 50, trend: "down" as const },
+        { id: "decision-score", labelKey: "decisionScore", value: 55, rangeMin: 40, rangeMax: 70, trend: "stable" as const },
+      ],
+    },
   ]
 
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null)
   const [customQuestion, setCustomQuestion] = useState("")
   const [isAuthOpen, setIsAuthOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+      if (currentUser) {
+        setIsAuthOpen(false)
+        router.push(`/${params.locale}/dashboard`)
+      }
+    })
+    return () => unsubscribe()
+  }, [router, params.locale])
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+    } catch (error) {
+      console.error("Error signing out", error)
+    }
+  }
 
   const activeScenario = scenarios.find((s) => s.id === selectedScenario)
 
@@ -103,7 +145,15 @@ export default function LifePathSimulator() {
   }
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    if (selectedScenario) {
+      setSelectedScenario(null)
+      // Wait for re-render to ensure section exists
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    }
     setIsMobileMenuOpen(false)
   }
 
@@ -155,9 +205,25 @@ export default function LifePathSimulator() {
           <div className="flex items-center gap-2 md:gap-3">
             <ThemeToggle />
             <LanguageSwitcher />
-            <Button onClick={handleGetStarted} className="hidden sm:flex gradient-primary text-white">
-              {tCommon('logIn')}
-            </Button>
+
+
+
+
+
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-foreground hidden sm:inline-block">
+                  {user.displayName || user.email?.split('@')[0]}
+                </span>
+                <Button onClick={handleLogout} variant="outline" className="hidden sm:flex">
+                  Log out
+                </Button>
+              </div>
+            ) : (
+              <Button onClick={handleGetStarted} className="hidden sm:flex gradient-primary text-white">
+                {tCommon('logIn')}
+              </Button>
+            )}
 
             {/* Mobile menu button */}
             <button
@@ -240,6 +306,7 @@ export default function LifePathSimulator() {
               outcomes={translatedScenario.outcomes}
               onBack={() => setSelectedScenario(null)}
               onSignUp={handleGetStarted}
+              user={user}
             />
           )
         )}

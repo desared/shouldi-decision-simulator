@@ -63,7 +63,10 @@
     "hoursReduced": "Hours Reduced Per Week",
     "incomeReduction": "Income Reduction",
     "sideProjects": "Time for Side Projects",
-    "healthFocus": "Health & Wellness Focus"
+    "healthFocus": "Health & Wellness Focus",
+    "propertyPrice": "Property Price",
+    "interestRate": "Interest Rate",
+    "marketGrowth": "Market Growth Annual"
   },
   "outcomes": {
     "financialStability": "Financial Stability (5 years)",
@@ -82,6 +85,9 @@
     "healthEnergy": "Health & Energy",
     "relationshipQuality": "Relationship Quality",
     "productivityPerHour": "Productivity Per Hour",
+    "netWorth10y": "Net Worth (10 Years)",
+    "monthlyCashflow": "Monthly Cashflow Impact",
+    "flexibilityScore": "Flexibility Score",
     "decisionScore": "Decision Score"
   },
   "simulation": {

@@ -31,7 +31,7 @@ export function ScenariosSection({ onSelectScenario, onPremiumClick }: Scenarios
       icon: Home,
       titleKey: 'buyRent.title',
       descriptionKey: 'buyRent.description',
-      premium: true
+      premium: false
     },
     {
       id: 'work-hours',
