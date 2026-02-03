@@ -305,6 +305,10 @@
     "signUp": "Sign up",
     "continueWith": "Or continue with",
     "google": "Google",
-    "apple": "Apple"
+    "apple": "Apple",
+    "verificationSentTitle": "Check Your Email",
+    "verificationSentMessage": "We have sent you a verification email. Please verify it and log in.",
+    "loginButton": "Login",
+    "emailNotVerified": "Please verify your email before logging in. Check your inbox for the verification link."
   }
 }

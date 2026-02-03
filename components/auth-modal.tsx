@@ -16,10 +16,13 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  sendEmailVerification,
+  signOut,
   AuthError
 } from "firebase/auth"
 import { auth, googleProvider } from "@/lib/firebase"
-import { Loader2 } from "lucide-react"
+import { createUserProfileIfNotExists, seedDefaultScenarios } from "@/lib/firestore-service"
+import { Loader2, Mail } from "lucide-react"
 
 interface AuthModalProps {
   isOpen: boolean
@@ -35,6 +38,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [verificationSent, setVerificationSent] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -46,11 +50,28 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
         if (password !== confirmPassword) {
           throw new Error("Passwords do not match")
         }
-        await createUserWithEmailAndPassword(auth, email, password)
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        await sendEmailVerification(userCredential.user)
+        await signOut(auth)
+        setVerificationSent(true)
       } else {
-        await signInWithEmailAndPassword(auth, email, password)
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        if (!userCredential.user.emailVerified) {
+          await signOut(auth)
+          setError(t('emailNotVerified'))
+          return
+        }
+
+        // Create user profile and seed default scenarios
+        await createUserProfileIfNotExists(userCredential.user.uid, {
+          email: userCredential.user.email || "",
+          displayName: userCredential.user.displayName,
+          photoURL: userCredential.user.photoURL,
+        })
+        await seedDefaultScenarios(userCredential.user.uid)
+
+        onClose()
       }
-      onClose()
     } catch (err: any) {
       console.error(err)
       if (err.message === "Passwords do not match") {
@@ -77,7 +98,16 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
     setError(null)
     setLoading(true)
     try {
-      await signInWithPopup(auth, googleProvider)
+      const result = await signInWithPopup(auth, googleProvider)
+
+      // Create user profile and seed default scenarios
+      await createUserProfileIfNotExists(result.user.uid, {
+        email: result.user.email || "",
+        displayName: result.user.displayName,
+        photoURL: result.user.photoURL,
+      })
+      await seedDefaultScenarios(result.user.uid)
+
       onClose()
     } catch (err) {
       console.error(err)
@@ -85,6 +115,43 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleBackToLogin = () => {
+    setVerificationSent(false)
+    setMode('signin')
+    setEmail('')
+    setPassword('')
+    setConfirmPassword('')
+    setError(null)
+  }
+
+  if (verificationSent) {
+    return (
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-6">
+              <Mail className="h-8 w-8 text-primary" />
+            </div>
+            <DialogHeader className="text-center">
+              <DialogTitle className="text-2xl mb-2">
+                {t('verificationSentTitle')}
+              </DialogTitle>
+              <DialogDescription className="text-base">
+                {t('verificationSentMessage')}
+              </DialogDescription>
+            </DialogHeader>
+            <Button
+              onClick={handleBackToLogin}
+              className="mt-6 gradient-primary text-white"
+            >
+              {t('loginButton')}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
   }
 
   return (
@@ -171,7 +238,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 py-4">
+        <div className="py-4">
           <Button variant="outline" type="button" className="w-full" onClick={handleGoogleSignIn} disabled={loading}>
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
@@ -192,12 +259,6 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
               />
             </svg>
             {t('google')}
-          </Button>
-          <Button variant="outline" type="button" className="w-full" disabled={loading}>
-            <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" />
-            </svg>
-            {t('apple')}
           </Button>
         </div>
 

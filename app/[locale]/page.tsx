@@ -95,7 +95,7 @@ export default function LifePathSimulator() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
-      if (currentUser) {
+      if (currentUser && currentUser.emailVerified) {
         setIsAuthOpen(false)
         router.push(`/${params.locale}/dashboard`)
       }

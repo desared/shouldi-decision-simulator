@@ -305,6 +305,10 @@
     "signUp": "Registrieren",
     "continueWith": "Oder fortfahren mit",
     "google": "Google",
-    "apple": "Apple"
+    "apple": "Apple",
+    "verificationSentTitle": "E-Mail überprüfen",
+    "verificationSentMessage": "Wir haben Ihnen eine Bestätigungs-E-Mail gesendet. Bitte bestätigen Sie diese und melden Sie sich an.",
+    "loginButton": "Anmelden",
+    "emailNotVerified": "Bitte bestätigen Sie Ihre E-Mail-Adresse, bevor Sie sich anmelden. Überprüfen Sie Ihren Posteingang auf den Bestätigungslink."
   }
 }
