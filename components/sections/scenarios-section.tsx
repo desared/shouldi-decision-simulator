@@ -1,7 +1,7 @@
 "use client"
 
 import { useTranslations } from 'next-intl'
-import { Briefcase, MapPin, Home, Clock, Lock } from 'lucide-react'
+import { Briefcase, MapPin, Home, MessageCircleQuestion, Lock } from 'lucide-react'
 
 interface ScenariosSectionProps {
   onSelectScenario: (id: string) => void
@@ -31,13 +31,13 @@ export function ScenariosSection({ onSelectScenario, onPremiumClick }: Scenarios
       icon: MapPin,
       titleKey: 'relocate.title',
       descriptionKey: 'relocate.description',
-      premium: true
+      premium: false
     },
     {
-      id: 'work-hours',
-      icon: Clock,
-      titleKey: 'workHours.title',
-      descriptionKey: 'workHours.description',
+      id: 'ask-anything',
+      icon: MessageCircleQuestion,
+      titleKey: 'askAnything.title',
+      descriptionKey: 'askAnything.description',
       premium: true
     }
   ]
@@ -68,9 +68,9 @@ export function ScenariosSection({ onSelectScenario, onPremiumClick }: Scenarios
               {/* Badge */}
               <div className="absolute top-4 right-4">
                 {scenario.premium ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
                     <Lock className="h-3 w-3" />
-                    {t('premium')}
+                    {t('loginRequired')}
                   </span>
                 ) : (
                   <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
@@ -98,9 +98,9 @@ export function ScenariosSection({ onSelectScenario, onPremiumClick }: Scenarios
 
               {/* Action hint */}
               <div className={`flex items-center text-sm font-medium ${
-                scenario.premium ? 'text-accent' : 'text-primary'
+                scenario.premium ? 'text-muted-foreground' : 'text-primary'
               }`}>
-                {scenario.premium ? t('unlockPremium') : t('tryScenario')}
+                {scenario.premium ? t('loginToUnlock') : t('tryScenario')}
                 <svg
                   className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
                   fill="none"

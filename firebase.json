@@ -1,21 +1,4 @@
 {
-  "hosting": {
-    "public": "out",
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "redirects": [
-      {
-        "source": "/",
-        "destination": "/en",
-        "type": 301
-      }
-    ]
-  },
   "firestore": {
     "database": "(default)",
     "location": "nam5",

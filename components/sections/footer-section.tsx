@@ -54,7 +54,7 @@ export function FooterSection() {
               <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary">
                 <Sparkles className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-foreground">should<span className="text-primary">I</span></span>
+              <span className="text-xl font-bold text-foreground">should<span className="text-primary">i</span></span>
             </div>
             <p className="text-sm text-muted-foreground mb-6 max-w-xs">
               {t('tagline')}

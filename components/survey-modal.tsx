@@ -22,11 +22,13 @@ interface SurveyModalProps {
   isOpen: boolean
   onClose: () => void
   userQuestion: string
+  questionCount?: number
+  bestCaseOnly?: boolean
 }
 
 type SurveyStep = "loading" | "questions" | "generating" | "results"
 
-export function SurveyModal({ isOpen, onClose, userQuestion }: SurveyModalProps) {
+export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, bestCaseOnly = false }: SurveyModalProps) {
   const t = useTranslations('survey')
   const [step, setStep] = useState<SurveyStep>("loading")
   const [questions, setQuestions] = useState<SurveyQuestion[]>([])
@@ -54,7 +56,7 @@ export function SurveyModal({ isOpen, onClose, userQuestion }: SurveyModalProps)
   const loadQuestions = async () => {
     setStep("loading")
     try {
-      const response = await generateSurveyQuestionsAction(userQuestion, 4)
+      const response = await generateSurveyQuestionsAction(userQuestion, questionCount)
       setQuestions(response.questions)
       setStep("questions")
     } catch (error) {
@@ -77,7 +79,7 @@ export function SurveyModal({ isOpen, onClose, userQuestion }: SurveyModalProps)
       // All questions answered, generate outcomes
       setStep("generating")
       try {
-        const response = await generateOutcomesAction(userQuestion, answers)
+        const response = await generateOutcomesAction(userQuestion, answers, bestCaseOnly)
         setOutcomes(response)
         setStep("results")
       } catch (error) {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -33,6 +33,14 @@ interface AuthModalProps {
 export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModalProps) {
   const t = useTranslations('auth')
   const [mode, setMode] = useState<'signin' | 'signup'>(defaultMode)
+
+  useEffect(() => {
+    if (isOpen) {
+      setMode(defaultMode)
+      setError(null)
+      setVerificationSent(false)
+    }
+  }, [isOpen, defaultMode])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')

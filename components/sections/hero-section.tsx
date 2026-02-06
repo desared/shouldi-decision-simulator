@@ -1,38 +1,36 @@
 "use client"
 
 import { useTranslations } from 'next-intl'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { SearchAutocomplete } from '@/components/search-autocomplete'
+import { Input } from '@/components/ui/input'
 
 interface HeroSectionProps {
   customQuestion: string
   setCustomQuestion: (value: string) => void
-  onSelectScenario: (id: string) => void
-  onPremiumClick: () => void
   onCustomQuestionSubmit: (question: string) => void
 }
 
 export function HeroSection({
   customQuestion,
   setCustomQuestion,
-  onSelectScenario,
-  onPremiumClick,
   onCustomQuestionSubmit
 }: HeroSectionProps) {
   const t = useTranslations('hero')
 
   const handleSimulateClick = () => {
-    // Check if user entered a custom "Should I...?" question
-    const trimmedQuestion = customQuestion.trim().toLowerCase()
-    if (trimmedQuestion && (trimmedQuestion.startsWith('should i') || trimmedQuestion.startsWith('should'))) {
-      onCustomQuestionSubmit(customQuestion.trim())
-    } else if (customQuestion.trim()) {
-      // If they typed something but not a "Should I" question, prepend it
-      onCustomQuestionSubmit(`Should I ${customQuestion.trim()}?`)
+    const trimmed = customQuestion.trim()
+    if (!trimmed) return
+    if (trimmed.toLowerCase().startsWith('should i') || trimmed.toLowerCase().startsWith('should')) {
+      onCustomQuestionSubmit(trimmed)
     } else {
-      // No custom question, show premium/auth modal
-      onPremiumClick()
+      onCustomQuestionSubmit(`Should I ${trimmed}?`)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSimulateClick()
     }
   }
 
@@ -65,17 +63,21 @@ export function HeroSection({
             {t('subtitle')}
           </p>
 
-          {/* Search with Autocomplete */}
+          {/* Search bar */}
           <div className="mx-auto mb-4 flex max-w-xl gap-3">
-            <SearchAutocomplete
-              value={customQuestion}
-              onChange={setCustomQuestion}
-              onSelectScenario={onSelectScenario}
-              onPremiumClick={onPremiumClick}
-              placeholder={t('inputPlaceholder')}
-            />
+            <div className="relative w-full">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                value={customQuestion}
+                onChange={(e) => setCustomQuestion(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={t('inputPlaceholder')}
+                className="h-14 pl-12 bg-card text-foreground placeholder:text-muted-foreground text-lg shadow-lg border-2 border-border focus:border-primary"
+              />
+            </div>
             <Button
               onClick={handleSimulateClick}
+              disabled={!customQuestion.trim()}
               className="h-14 px-6 md:px-8 gradient-primary text-white font-semibold shadow-lg hover:opacity-90 transition-opacity shrink-0"
             >
               <span className="hidden sm:inline">{t('simulate')}</span>
@@ -85,31 +87,9 @@ export function HeroSection({
           <p className="text-sm text-muted-foreground">
             {t('tryExample')}
           </p>
-
-          {/* Social proof */}
-          <div className="mt-10 md:mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-8">
-            <div className="flex -space-x-2">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div
-                  key={i}
-                  className="h-9 w-9 md:h-10 md:w-10 rounded-full border-2 border-background bg-gradient-to-br from-primary/60 to-accent/60 flex items-center justify-center text-white text-xs font-bold"
-                >
-                  {String.fromCharCode(65 + i - 1)}
-                </div>
-              ))}
-            </div>
-            <div className="text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">50,000+</span> decisions simulated
-            </div>
-            <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <svg key={i} className="h-4 w-4 md:h-5 md:w-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-              <span className="ml-1 text-sm font-medium">4.9/5</span>
-            </div>
-          </div>
+          <p className="text-xs text-muted-foreground/70 mt-2">
+            {t('freeHint')}
+          </p>
         </div>
       </div>
     </section>

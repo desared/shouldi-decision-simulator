@@ -12,12 +12,11 @@ import { HeroSection } from "@/components/sections/hero-section"
 import { ScenariosSection } from "@/components/sections/scenarios-section"
 import { HowItWorksSection } from "@/components/sections/how-it-works-section"
 import { FeaturesSection } from "@/components/sections/features-section"
-import { TestimonialsSection } from "@/components/sections/testimonials-section"
 import { PricingSection } from "@/components/sections/pricing-section"
 import { FAQSection } from "@/components/sections/faq-section"
 import { CTASection } from "@/components/sections/cta-section"
 import { FooterSection } from "@/components/sections/footer-section"
-import { SimulationPanelTranslated } from "@/components/simulation-panel-translated"
+import { SimulationResults } from "@/components/dashboard/simulation-results"
 import { SurveyModal } from "@/components/survey-modal"
 import { onAuthStateChanged, signOut, User } from "firebase/auth"
 import { auth } from "@/lib/firebase"
@@ -25,71 +24,67 @@ import { auth } from "@/lib/firebase"
 export default function ShouldISimulator() {
   const tCommon = useTranslations('common')
   const tNav = useTranslations('nav')
-  const tFactors = useTranslations('factors')
-  const tOutcomes = useTranslations('outcomes')
-  const tScenarios = useTranslations('scenarios')
   const router = useRouter()
   const params = useParams()
 
-  const scenarios = [
-    {
-      id: "job-change",
-      titleKey: "jobChange.title",
-      descriptionKey: "jobChange.description",
+  // Pre-cached realistic results for free scenarios (no API calls)
+  const cachedResults: Record<string, {
+    title: string
+    status: "optimal" | "moderate" | "risk"
+    factors: { id: string; label: string; value: number; min: number; max: number; unit?: string; question: string; answer: string }[]
+    outcomes: { id: string; label: string; value: number; rangeMin: number; rangeMax: number; trend: "up" | "down" | "stable"; description: string; confidence: "high" | "medium" | "low"; confidenceInterval: string }[]
+  }> = {
+    "job-change": {
+      title: "Analysis: Should I change jobs?",
+      status: "optimal",
       factors: [
-        { id: "salary-change", labelKey: "salaryChange", value: 20, min: -50, max: 100, unit: "%" },
-        { id: "commute-time", labelKey: "commuteTime", value: 30, min: 0, max: 120, unit: " min" },
-        { id: "job-satisfaction", labelKey: "jobSatisfaction", value: 70, min: 0, max: 100, unit: "%" },
-        { id: "career-growth", labelKey: "careerGrowth", value: 65, min: 0, max: 100, unit: "%" },
+        { id: "f1", label: "Salary expectations", value: 70, min: 0, max: 100, question: "How significant is a salary increase in your decision to change jobs?", answer: "It is a major factor — I expect at least a 20% raise" },
+        { id: "f2", label: "Work-life balance", value: 60, min: 0, max: 100, question: "How satisfied are you with your current work-life balance?", answer: "Somewhat dissatisfied — I often work late and feel drained" },
+        { id: "f3", label: "Career growth", value: 80, min: 0, max: 100, question: "How important is long-term career growth in your decision?", answer: "Very important — I want a clear path to leadership" },
+        { id: "f4", label: "Job security", value: 50, min: 0, max: 100, question: "How comfortable are you with the risk of starting at a new company?", answer: "Moderately comfortable — I have savings to cover a few months" },
       ],
       outcomes: [
-        { id: "financial", labelKey: "financialStability", value: 72, rangeMin: 60, rangeMax: 85, trend: "up" as const },
-        { id: "happiness", labelKey: "workLifeBalance", value: 65, rangeMin: 50, rangeMax: 78, trend: "up" as const },
-        { id: "stress", labelKey: "stressLevel", value: 45, rangeMin: 35, rangeMax: 60, trend: "down" as const },
-        { id: "growth", labelKey: "careerAdvancement", value: 78, rangeMin: 65, rangeMax: 90, trend: "up" as const },
-        { id: "decision-score", labelKey: "decisionScore", value: 74, rangeMin: 62, rangeMax: 86, trend: "up" as const },
+        { id: "o1", label: "Best Case: Career Advancement and Higher Earnings", value: 78, rangeMin: 65, rangeMax: 90, trend: "up", description: "You land a role with a 25-30% salary increase and a clear promotion track. The new environment reignites your motivation, and within 2 years you reach a senior position. Your professional network expands significantly.", confidence: "high", confidenceInterval: "65-90%" },
+        { id: "o2", label: "Likely Case: Moderate Improvement with Adjustment Period", value: 62, rangeMin: 50, rangeMax: 75, trend: "up", description: "You secure a 15-20% raise and enjoy better work-life balance. The first 6 months involve a learning curve and proving yourself in a new culture. Career growth is steady but not immediately dramatic.", confidence: "medium", confidenceInterval: "50-75%" },
+        { id: "o3", label: "Worst Case: Challenging Transition with Setbacks", value: 35, rangeMin: 20, rangeMax: 50, trend: "down", description: "The new role doesn't match expectations — culture fit issues or misaligned responsibilities. You may need to job search again within a year. Financially you break even due to the raise offsetting transition costs.", confidence: "low", confidenceInterval: "20-50%" },
       ],
     },
-    {
-      id: "relocate",
-      titleKey: "relocate.title",
-      descriptionKey: "relocate.description",
+    "buy-rent": {
+      title: "Analysis: Buy or rent?",
+      status: "moderate",
       factors: [
-        { id: "cost-living", labelKey: "costOfLiving", value: -15, min: -50, max: 50, unit: "%" },
-        { id: "income-change", labelKey: "incomeChange", value: 10, min: -30, max: 50, unit: "%" },
-        { id: "social-network", labelKey: "socialNetwork", value: 40, min: 0, max: 100, unit: "%" },
-        { id: "quality-life", labelKey: "qualityOfLife", value: 75, min: 0, max: 100, unit: "%" },
+        { id: "f1", label: "Financial commitment", value: 50, min: 0, max: 100, question: "How comfortable are you with the long-term financial commitment associated with owning a property, including potential property taxes, insurance, and maintenance costs?", answer: "I am generally comfortable with these costs and have a financial plan." },
+        { id: "f2", label: "Flexibility needs", value: 50, min: 0, max: 100, question: "Considering your current lifestyle and potential for job changes or relocation, how flexible do you need your living situation to be in the next 5-10 years?", answer: "I prefer flexibility and anticipate the possibility of moving." },
+        { id: "f3", label: "Maintenance readiness", value: 70, min: 0, max: 100, question: "How confident are you in your ability to handle unexpected housing-related issues, such as appliance failures, plumbing problems, or other necessary repairs?", answer: "I am generally comfortable handling these issues or hiring someone to do so." },
+        { id: "f4", label: "Equity building", value: 50, min: 0, max: 100, question: "How much does the potential for building equity and seeing your housing investment appreciate influence your overall decision-making process?", answer: "This factor is a major driving force in my decision." },
       ],
       outcomes: [
-        { id: "savings", labelKey: "savingsRate", value: 58, rangeMin: 45, rangeMax: 72, trend: "up" as const },
-        { id: "social", labelKey: "socialWellbeing", value: 42, rangeMin: 28, rangeMax: 55, trend: "down" as const },
-        { id: "career", labelKey: "careerOpportunities", value: 70, rangeMin: 58, rangeMax: 85, trend: "up" as const },
-        { id: "happiness", labelKey: "overallHappiness", value: 65, rangeMin: 50, rangeMax: 78, trend: "stable" as const },
-        { id: "decision-score", labelKey: "decisionScore", value: 68, rangeMin: 55, rangeMax: 80, trend: "up" as const },
+        { id: "o1", label: "Best Case: Property Ownership Leads to Significant Financial Gains", value: 60, rangeMin: 45, rangeMax: 75, trend: "stable", description: "You purchase a property and experience substantial appreciation in its value over the next 5-10 years. Your financial planning proves effective, allowing you to comfortably manage the ongoing costs of ownership. Despite a preference for flexibility, the potential financial gains outweigh the inconvenience of staying in one place.", confidence: "medium", confidenceInterval: "45-75%" },
+        { id: "o2", label: "Likely Case: Moderate Appreciation, Manageable but Some Inconvenience", value: 60, rangeMin: 45, rangeMax: 75, trend: "stable", description: "The property appreciates at a modest rate. You are able to manage maintenance and costs, though unexpected repairs eat into savings occasionally. The lack of flexibility becomes noticeable if career opportunities arise in other locations.", confidence: "medium", confidenceInterval: "45-75%" },
+        { id: "o3", label: "Worst Case: Market Downturn and Financial Strain", value: 30, rangeMin: 15, rangeMax: 45, trend: "down", description: "The housing market stagnates or declines. Maintenance costs exceed expectations, and the financial commitment feels burdensome. If you need to relocate for work, selling at a loss becomes a real possibility.", confidence: "low", confidenceInterval: "15-45%" },
       ],
     },
-    {
-      id: "buy-rent",
-      titleKey: "buyRent.title",
-      descriptionKey: "buyRent.description",
+    "relocate": {
+      title: "Analysis: Should I move to a new city?",
+      status: "moderate",
       factors: [
-        { id: "property-price", labelKey: "propertyPrice", value: 50, min: 0, max: 1000, unit: "k" },
-        { id: "interest-rate", labelKey: "interestRate", value: 5, min: 1, max: 10, unit: "%" },
-        { id: "rent-cost", labelKey: "monthlyRent", value: 20, min: 5, max: 50, unit: "00" },
-        { id: "market-growth", labelKey: "marketGrowth", value: 3, min: -2, max: 10, unit: "%" },
+        { id: "f1", label: "Career opportunities", value: 75, min: 0, max: 100, question: "How significant are career opportunities in the new city compared to your current location?", answer: "The new city has significantly better opportunities in my field" },
+        { id: "f2", label: "Cost of living", value: 55, min: 0, max: 100, question: "How does the cost of living in the new city compare to where you live now?", answer: "It is somewhat higher, but my expected income would offset the difference" },
+        { id: "f3", label: "Social network", value: 40, min: 0, max: 100, question: "How strong is your existing social network (friends, family, community) in your current city?", answer: "I have a moderate social circle — some close friends and family nearby" },
+        { id: "f4", label: "Quality of life", value: 65, min: 0, max: 100, question: "How important are lifestyle factors (climate, culture, outdoor activities) in your decision to relocate?", answer: "Very important — the new city offers a lifestyle I have always wanted" },
       ],
       outcomes: [
-        { id: "net-worth", labelKey: "netWorth10y", value: 60, rangeMin: 40, rangeMax: 80, trend: "up" as const },
-        { id: "monthly-cashflow", labelKey: "monthlyCashflow", value: 45, rangeMin: 30, rangeMax: 60, trend: "down" as const },
-        { id: "flexibility", labelKey: "flexibilityScore", value: 30, rangeMin: 10, rangeMax: 50, trend: "down" as const },
-        { id: "decision-score", labelKey: "decisionScore", value: 55, rangeMin: 40, rangeMax: 70, trend: "stable" as const },
+        { id: "o1", label: "Best Case: Thriving in a New Environment", value: 72, rangeMin: 60, rangeMax: 85, trend: "up", description: "You settle into the new city quickly, land a great role with a 20% salary boost, and build a fulfilling social circle within the first year. The lifestyle upgrade — better weather, culture, and activities — significantly improves your overall happiness and motivation.", confidence: "high", confidenceInterval: "60-85%" },
+        { id: "o2", label: "Likely Case: Gradual Adjustment with Trade-offs", value: 58, rangeMin: 45, rangeMax: 70, trend: "stable", description: "The move goes smoothly logistically, but building new friendships takes 6-12 months. Career-wise you see moderate improvement. The higher cost of living eats into savings initially, though you adapt your budget over time.", confidence: "medium", confidenceInterval: "45-70%" },
+        { id: "o3", label: "Worst Case: Isolation and Financial Pressure", value: 30, rangeMin: 15, rangeMax: 45, trend: "down", description: "The new city feels isolating without your support network. The cost of living is higher than expected, and the job market doesn't deliver the opportunities you anticipated. You may consider moving back within 1-2 years.", confidence: "low", confidenceInterval: "15-45%" },
       ],
     },
-  ]
+  }
 
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null)
   const [customQuestion, setCustomQuestion] = useState("")
   const [isAuthOpen, setIsAuthOpen] = useState(false)
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [isSurveyOpen, setIsSurveyOpen] = useState(false)
@@ -114,37 +109,29 @@ export default function ShouldISimulator() {
     }
   }
 
-  const activeScenario = scenarios.find((s) => s.id === selectedScenario)
-
-  // Transform scenario data with translations
-  const getTranslatedScenario = () => {
-    if (!activeScenario) return null
-    return {
-      ...activeScenario,
-      title: tScenarios(activeScenario.titleKey),
-      description: tScenarios(activeScenario.descriptionKey),
-      factors: activeScenario.factors.map(f => ({
-        ...f,
-        label: tFactors(f.labelKey)
-      })),
-      outcomes: activeScenario.outcomes.map(o => ({
-        ...o,
-        label: tOutcomes(o.labelKey)
-      }))
-    }
+  const handleLogIn = () => {
+    setAuthMode('signin')
+    setIsAuthOpen(true)
   }
 
-  const handleGetStarted = () => {
+  const handleSignUp = () => {
+    setAuthMode('signup')
     setIsAuthOpen(true)
   }
 
   const handlePremiumClick = () => {
+    setAuthMode('signup')
     setIsAuthOpen(true)
   }
 
   const handleCustomQuestionSubmit = (question: string) => {
     setSurveyQuestion(question)
     setIsSurveyOpen(true)
+  }
+
+  const handleSelectScenario = (scenarioId: string) => {
+    // For free scenarios, show static cached results (no API call)
+    setSelectedScenario(scenarioId)
   }
 
   const goToHome = () => {
@@ -155,7 +142,6 @@ export default function ShouldISimulator() {
   const scrollToSection = (id: string) => {
     if (selectedScenario) {
       setSelectedScenario(null)
-      // Wait for re-render to ensure section exists
       setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
       }, 100)
@@ -164,8 +150,6 @@ export default function ShouldISimulator() {
     }
     setIsMobileMenuOpen(false)
   }
-
-  const translatedScenario = getTranslatedScenario()
 
   return (
     <div className="min-h-screen bg-background">
@@ -179,7 +163,7 @@ export default function ShouldISimulator() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-foreground">should<span className="text-primary">I</span></span>
+            <span className="text-xl font-bold text-foreground">should<span className="text-primary">i</span></span>
           </button>
 
           {/* Desktop nav */}
@@ -215,9 +199,6 @@ export default function ShouldISimulator() {
             <LanguageSwitcher />
 
 
-
-
-
             {user ? (
               <div className="flex items-center gap-3">
                 <span className="text-sm font-medium text-foreground hidden sm:inline-block">
@@ -228,7 +209,7 @@ export default function ShouldISimulator() {
                 </Button>
               </div>
             ) : (
-              <Button onClick={handleGetStarted} className="hidden sm:flex gradient-primary text-white">
+              <Button onClick={handleLogIn} className="hidden sm:flex gradient-primary text-white">
                 {tCommon('logIn')}
               </Button>
             )}
@@ -276,7 +257,7 @@ export default function ShouldISimulator() {
                 {tNav('faq')}
               </button>
               <div className="pt-4 border-t border-border">
-                <Button onClick={handleGetStarted} className="w-full gradient-primary text-white">
+                <Button onClick={handleLogIn} className="w-full gradient-primary text-white">
                   {tCommon('logIn')}
                 </Button>
               </div>
@@ -291,32 +272,30 @@ export default function ShouldISimulator() {
             <HeroSection
               customQuestion={customQuestion}
               setCustomQuestion={setCustomQuestion}
-              onSelectScenario={setSelectedScenario}
-              onPremiumClick={handlePremiumClick}
               onCustomQuestionSubmit={handleCustomQuestionSubmit}
             />
             <ScenariosSection
-              onSelectScenario={setSelectedScenario}
+              onSelectScenario={handleSelectScenario}
               onPremiumClick={handlePremiumClick}
             />
             <HowItWorksSection />
             <FeaturesSection />
-            <TestimonialsSection />
-            <PricingSection onGetStarted={handleGetStarted} />
+            <PricingSection onGetStarted={handleSignUp} />
             <FAQSection />
-            <CTASection onGetStarted={handleGetStarted} />
+            <CTASection onGetStarted={handleSignUp} />
           </>
         ) : (
-          translatedScenario && (
-            <SimulationPanelTranslated
-              title={translatedScenario.title}
-              description={translatedScenario.description}
-              factors={translatedScenario.factors}
-              outcomes={translatedScenario.outcomes}
-              onBack={() => setSelectedScenario(null)}
-              onSignUp={handleGetStarted}
-              user={user}
-            />
+          selectedScenario && cachedResults[selectedScenario] && (
+            <div className="mx-auto max-w-6xl px-4 py-8">
+              <SimulationResults
+                title={cachedResults[selectedScenario].title}
+                factors={cachedResults[selectedScenario].factors}
+                outcomes={cachedResults[selectedScenario].outcomes}
+                status={cachedResults[selectedScenario].status}
+                onBack={() => setSelectedScenario(null)}
+                showDownload={false}
+              />
+            </div>
           )
         )}
       </main>
@@ -327,14 +306,16 @@ export default function ShouldISimulator() {
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
-        defaultMode="signup"
+        defaultMode={authMode}
       />
 
-      {/* Survey Modal for custom questions */}
+      {/* Survey Modal — landing page: 2 questions, best case only */}
       <SurveyModal
         isOpen={isSurveyOpen}
         onClose={() => setIsSurveyOpen(false)}
         userQuestion={surveyQuestion}
+        questionCount={2}
+        bestCaseOnly={true}
       />
     </div>
   )

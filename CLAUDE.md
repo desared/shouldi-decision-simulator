@@ -12,8 +12,7 @@ pnpm start        # Start production server
 ```
 
 **Deployment:**
-- Firebase Hosting serves the static export from `/out`
-- Run `pnpm build` then deploy via Firebase CLI
+- Hosted on Vercel (handles Next.js natively with SSR and server actions)
 
 ## Architecture Overview
 
@@ -55,7 +54,7 @@ Firebase Auth with Email/Password and Google OAuth. Auth UI is in `components/au
 
 ## Important Patterns
 
-- **Static Export:** The app builds to static HTML (`output: 'export'` in next.config.mjs). No SSR/API routes.
+- **Vercel Deployment:** The app is deployed on Vercel with full SSR and server action support.
 - **Client Components:** Most components use "use client" directive for interactivity
 - **Translations:** Use `useTranslations()` hook from next-intl for i18n strings
 - **Styling:** TailwindCSS with OKLCH color variables defined in `globals.css`. Use `cn()` from `lib/utils.ts` for class merging.

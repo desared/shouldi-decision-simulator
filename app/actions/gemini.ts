@@ -67,7 +67,32 @@ Return ONLY valid JSON in this exact format (no markdown, no code blocks):
   ]
 }`;
 
-const OUTCOME_PROMPT = `You are a life decision advisor. Based on the user's question and their survey responses, provide thoughtful outcomes and recommendations.
+const getOutcomePrompt = (bestCaseOnly: boolean) => bestCaseOnly
+  ? `You are a life decision advisor. Based on the user's question and their survey responses, provide the most likely positive outcome and a recommendation.
+
+Analyze the responses and provide:
+1. 1 best-case outcome
+2. A confidence level
+3. A specific confidence probability interval (e.g., "75-85%")
+4. A brief recommendation
+5. An overall summary
+
+Give a full, detailed answer.
+
+Return ONLY valid JSON in this exact format (no markdown, no code blocks):
+{
+  "outcomes": [
+    {
+      "title": "Outcome title",
+      "description": "Detailed description of this outcome scenario. Be specific and explain why.",
+      "confidence": "high|medium|low",
+      "confidenceInterval": "XX-YY%",
+      "recommendation": "What to do if this outcome applies"
+    }
+  ],
+  "summary": "Overall recommendation based on all responses"
+}`
+  : `You are a life decision advisor. Based on the user's question and their survey responses, provide thoughtful outcomes and recommendations.
 
 Analyze the responses and provide:
 1. 3 possible outcomes (best case, likely case, worst case)
@@ -172,7 +197,8 @@ Generate ${questionCount} relevant survey questions for this specific decision.`
 
 export async function generateOutcomesAction(
     userQuestion: string,
-    answers: Record<string, { question: string; answer: string }>
+    answers: Record<string, { question: string; answer: string }>,
+    bestCaseOnly: boolean = false
 ): Promise<GeminiOutcomeResponse> {
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
@@ -181,7 +207,7 @@ export async function generateOutcomesAction(
             .map(([, { question, answer }]) => `Q: ${question}\nA: ${answer}`)
             .join("\n\n");
 
-        const prompt = `${OUTCOME_PROMPT}
+        const prompt = `${getOutcomePrompt(bestCaseOnly)}
 
 User's original question: "${userQuestion}"
 

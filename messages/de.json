@@ -2,6 +2,7 @@
   "common": {
     "signIn": "Anmelden",
     "logIn": "Anmelden",
+    "signUp": "Registrieren",
     "learnMore": "Mehr erfahren",
     "tryFree": "Kostenlos testen",
     "viewPricing": "Preise ansehen",
@@ -19,7 +20,8 @@
     "subtitle": "Ihre wichtigsten Lebensentscheidungen sollten kein Ratespiel sein. Unser KI-Simulator modelliert echte Ergebnisse, damit Sie mit Klarheit wählen können.",
     "inputPlaceholder": "Sollte ich...",
     "simulate": "Simulieren",
-    "tryExample": "Beispiel: \"Sollte ich den Job wechseln?\" oder \"Sollte ich ein Haus kaufen?\""
+    "tryExample": "Beispiel: \"Sollte ich den Job wechseln?\" oder \"Sollte ich ein Haus kaufen?\"",
+    "freeHint": "Melden Sie sich an, um Ergebnisse zu speichern, tiefere Analysen zu erhalten und unbegrenzte Szenarien freizuschalten"
   },
   "scenarios": {
     "title": "Beliebte Szenarien",
@@ -27,7 +29,8 @@
     "suggestions": "Vorgeschlagene Szenarien",
     "noResults": "Keine passenden Szenarien gefunden",
     "tryScenario": "Szenario ausprobieren",
-    "unlockPremium": "Mit Premium freischalten",
+    "loginToUnlock": "Anmelden zum Freischalten",
+    "loginRequired": "Anmeldung erforderlich",
     "jobChange": {
       "title": "Job wechseln",
       "description": "Erkunden Sie die finanziellen und beruflichen Auswirkungen eines Positionswechsels"
@@ -40,9 +43,9 @@
       "title": "In eine neue Stadt ziehen",
       "description": "Analysieren Sie die Auswirkungen eines Umzugs auf Ihren Lebensstil und Ihre Finanzen"
     },
-    "workHours": {
-      "title": "Arbeitszeit reduzieren",
-      "description": "Verstehen Sie die Kompromisse zwischen weniger Arbeit und mehr Freizeit"
+    "askAnything": {
+      "title": "Beliebige Frage stellen",
+      "description": "Melden Sie sich an, um jede \"Soll ich...?\"-Frage zu stellen und KI-Einblicke zu erhalten"
     },
     "free": "Kostenlos",
     "premium": "Premium"
@@ -127,7 +130,7 @@
     }
   },
   "features": {
-    "title": "Warum shouldI?",
+    "title": "Warum shouldi?",
     "subtitle": "Entwickelt für echte Entscheidungen, nicht für akademische Übungen",
     "probabilistic": {
       "title": "Probabilistische Modellierung",
@@ -158,7 +161,7 @@
     "title": "Vertraut von Entscheidungsträgern",
     "subtitle": "Schließen Sie sich Tausenden an, die Klarheit über ihre wichtigsten Lebensentscheidungen gewonnen haben",
     "quote1": {
-      "text": "Ich war gelähmt, ob ich meinen Firmenjob verlassen sollte. shouldI zeigte mir die realistische Bandbreite der Ergebnisse, und ich hatte endlich das Vertrauen, den Sprung zu wagen.",
+      "text": "Ich war gelähmt, ob ich meinen Firmenjob verlassen sollte. shouldi zeigte mir die realistische Bandbreite der Ergebnisse, und ich hatte endlich das Vertrauen, den Sprung zu wagen.",
       "author": "Sarah M.",
       "role": "Ehem. VP, jetzt Gründerin"
     },
@@ -168,7 +171,7 @@
       "role": "Software-Entwickler"
     },
     "quote3": {
-      "text": "Als Finanzberater empfehle ich shouldI all meinen Kunden. Es hilft ihnen, Ergebnisse zu visualisieren, wie Tabellen es nie könnten.",
+      "text": "Als Finanzberater empfehle ich shouldi all meinen Kunden. Es hilft ihnen, Ergebnisse zu visualisieren, wie Tabellen es nie könnten.",
       "author": "Jennifer L.",
       "role": "Zertifizierte Finanzplanerin"
     }
@@ -180,11 +183,11 @@
       "title": "Kostenlos",
       "price": "€0",
       "period": "für immer",
-      "description": "Testen Sie shouldI ohne Verpflichtung",
+      "description": "Simulieren Sie jedes Thema kostenlos",
       "features": [
-        "2 kostenlose Szenarien",
-        "Job wechseln & Kaufen vs. Mieten",
-        "Grundlegende Ergebnisanalyse",
+        "2 Szenarien zu jedem Thema",
+        "4-Fragen-Analyse pro Szenario",
+        "Ergebnisse speichern & abrufen",
         "Community-Support"
       ],
       "cta": "Kostenlos starten"
@@ -193,28 +196,28 @@
       "title": "Pro Szenario",
       "price": "€3,99",
       "period": "pro Simulation",
-      "description": "Jedes Premium-Szenario freischalten",
+      "description": "Tiefere Analyse für zusätzliche Szenarien",
       "features": [
-        "Zugang zu jedem Premium-Szenario",
-        "Vollständige detaillierte Simulation",
-        "Komplette Ergebnisanalyse",
-        "48 Stunden Zugriff auf Ergebnisse"
+        "Jedes zusätzliche Szenario über die 2 kostenlosen hinaus",
+        "10-Fragen-Tiefenanalyse",
+        "Genauere, fallspezifische Vorhersagen",
+        "Detaillierte personalisierte Einblicke"
       ],
-      "cta": "Simulation kaufen"
+      "cta": "Demnächst verfügbar"
     },
     "monthly": {
       "title": "Pro",
-      "price": "€19",
+      "price": "€19,99",
       "period": "pro Monat",
-      "description": "Für ernsthafte Lebensplaner",
+      "description": "Unbegrenzte Szenarien, maximale Details",
       "features": [
-        "Unbegrenzte Simulationen",
-        "Alle Premium-Szenarien",
+        "Unbegrenzte Simulationen zu jedem Thema",
+        "10-Fragen-Tiefenanalyse",
         "Ergebnisse speichern & vergleichen",
         "Prioritäts-Support",
         "Früher Zugang zu neuen Funktionen"
       ],
-      "cta": "Kostenlos testen",
+      "cta": "Demnächst verfügbar",
       "popular": "Am beliebtesten"
     },
     "freeTrial": "7 Tage kostenlos testen",
@@ -222,7 +225,7 @@
   },
   "faq": {
     "title": "Häufig gestellte Fragen",
-    "subtitle": "Alles, was Sie über shouldI wissen müssen",
+    "subtitle": "Alles, was Sie über shouldi wissen müssen",
     "q1": {
       "question": "Wie genau sind die Simulationen?",
       "answer": "Unsere Modelle basieren auf realen Wirtschaftsdaten, versicherungsmathematischen Tabellen und peer-reviewed Forschung. Obwohl keine Vorhersage perfekt ist, bieten wir Konfidenzintervalle, um Ihnen die Unsicherheit zu verstehen. Die meisten Nutzer finden, dass unsere Vorhersagen eng mit ihren tatsächlichen Ergebnissen übereinstimmen."
@@ -236,8 +239,8 @@
       "answer": "Absolut. Wir verkaufen oder teilen niemals Ihre persönlichen Daten. Ihre Szenarien sind verschlüsselt und nur für Sie zugänglich. Sie können Ihre Daten jederzeit löschen."
     },
     "q4": {
-      "question": "Was ist der Unterschied zwischen kostenlosen und Premium-Szenarien?",
-      "answer": "Kostenlose Szenarien geben Ihnen einen Einblick in unsere Simulationsengine. Premium-Szenarien umfassen detailliertere Modelle, zusätzliche Faktoren, längere Zeithorizonte und erweiterte Ergebnismetriken."
+      "question": "Was ist der Unterschied zwischen kostenlosen und kostenpflichtigen Plänen?",
+      "answer": "Der kostenlose Plan ermöglicht 2 Simulationen zu beliebigen Themen mit einer 4-Fragen-Analyse. Kostenpflichtige Pläne (Pro Szenario oder Pro) verwenden eine 10-Fragen-Tiefenanalyse für genauere, fallspezifische Vorhersagen. Pro bietet unbegrenzte Simulationen."
     },
     "q5": {
       "question": "Kann ich mein Abonnement jederzeit kündigen?",
@@ -255,7 +258,7 @@
   },
   "moreSimulations": {
     "title": "Mehr Simulationen gewünscht?",
-    "description": "Schalten Sie unbegrenzte Szenarien, detaillierte Analysen und Premium-Funktionen mit einem shouldI-Konto frei.",
+    "description": "Schalten Sie unbegrenzte Szenarien, detaillierte Analysen und Premium-Funktionen mit einem shouldi-Konto frei.",
     "cta": "Kostenlos starten"
   },
   "footer": {
@@ -287,7 +290,7 @@
       "terms": "Nutzungsbedingungen",
       "cookies": "Cookie-Richtlinie"
     },
-    "copyright": "© 2025 shouldI. Alle Rechte vorbehalten."
+    "copyright": "© 2025 shouldi. Alle Rechte vorbehalten."
   },
   "auth": {
     "signInTitle": "Willkommen zurück",

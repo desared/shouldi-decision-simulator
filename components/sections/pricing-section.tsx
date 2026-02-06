@@ -14,15 +14,18 @@ export function PricingSection({ onGetStarted }: PricingSectionProps) {
   const plans = [
     {
       key: 'free',
-      popular: false
+      popular: false,
+      comingSoon: false
     },
     {
       key: 'perScenario',
-      popular: false
+      popular: false,
+      comingSoon: true
     },
     {
       key: 'monthly',
-      popular: true
+      popular: true,
+      comingSoon: true
     }
   ]
 
@@ -43,9 +46,11 @@ export function PricingSection({ onGetStarted }: PricingSectionProps) {
             <div
               key={plan.key}
               className={`relative rounded-2xl border ${
-                plan.popular
-                  ? 'border-primary shadow-xl scale-105'
-                  : 'border-border'
+                plan.comingSoon
+                  ? 'border-border opacity-60'
+                  : plan.popular
+                    ? 'border-primary shadow-xl scale-105'
+                    : 'border-border'
               } bg-card p-8`}
             >
               {plan.popular && (
@@ -86,11 +91,12 @@ export function PricingSection({ onGetStarted }: PricingSectionProps) {
               </ul>
 
               <Button
-                onClick={onGetStarted}
+                onClick={plan.comingSoon ? undefined : onGetStarted}
+                disabled={plan.comingSoon}
                 className={`w-full ${
-                  plan.popular ? 'gradient-primary text-white' : ''
+                  plan.comingSoon ? 'opacity-50 cursor-not-allowed' : plan.popular ? 'gradient-primary text-white' : ''
                 }`}
-                variant={plan.popular ? 'default' : 'outline'}
+                variant={plan.popular && !plan.comingSoon ? 'default' : 'outline'}
               >
                 {t(`${plan.key}.cta`)}
               </Button>

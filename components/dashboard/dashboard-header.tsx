@@ -46,7 +46,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
                         <Sparkles className="h-4 w-4 text-white" />
                     </div>
-                    <span className="text-lg font-bold text-foreground">should<span className="text-primary">I</span></span>
+                    <span className="text-lg font-bold text-foreground">should<span className="text-primary">i</span></span>
                 </div>
 
                 <div className="flex items-center gap-2 md:gap-4">

@@ -2,6 +2,7 @@
   "common": {
     "signIn": "Sign in",
     "logIn": "Log In",
+    "signUp": "Sign Up",
     "learnMore": "Learn more",
     "tryFree": "Try for free",
     "viewPricing": "View pricing",
@@ -19,7 +20,8 @@
     "subtitle": "Life's biggest decisions shouldn't feel like guesswork. Our AI-powered simulator models real outcomes so you can choose with clarity.",
     "inputPlaceholder": "Should I...",
     "simulate": "Simulate",
-    "tryExample": "Try: \"Should I change jobs?\" or \"Should I buy a home?\""
+    "tryExample": "Try: \"Should I change jobs?\" or \"Should I buy a home?\"",
+    "freeHint": "Log in to save results, get deeper analysis, and unlock unlimited scenarios"
   },
   "scenarios": {
     "title": "Popular Scenarios",
@@ -27,7 +29,8 @@
     "suggestions": "Suggested scenarios",
     "noResults": "No matching scenarios found",
     "tryScenario": "Try this scenario",
-    "unlockPremium": "Unlock with Premium",
+    "loginToUnlock": "Log in to unlock",
+    "loginRequired": "Log in required",
     "jobChange": {
       "title": "Change Jobs",
       "description": "Explore the financial and career impact of switching positions or industries"
@@ -40,9 +43,9 @@
       "title": "Move to a New City",
       "description": "Analyze the impact of relocating to a new city on your lifestyle and finances"
     },
-    "workHours": {
-      "title": "Reduce Work Hours",
-      "description": "Understand the tradeoffs of working less for more personal time"
+    "askAnything": {
+      "title": "Ask Any Question",
+      "description": "Log in to ask any \"Should I...?\" question and get AI-powered insights"
     },
     "free": "Free",
     "premium": "Premium"
@@ -127,7 +130,7 @@
     }
   },
   "features": {
-    "title": "Why shouldI?",
+    "title": "Why shouldi?",
     "subtitle": "Built for real decisions, not academic exercises",
     "probabilistic": {
       "title": "Probabilistic Modeling",
@@ -158,7 +161,7 @@
     "title": "Trusted by Decision Makers",
     "subtitle": "Join thousands who've gained clarity on their biggest life choices",
     "quote1": {
-      "text": "I was paralyzed about whether to leave my corporate job. shouldI showed me the realistic range of outcomes, and I finally had the confidence to make the leap.",
+      "text": "I was paralyzed about whether to leave my corporate job. shouldi showed me the realistic range of outcomes, and I finally had the confidence to make the leap.",
       "author": "Sarah M.",
       "role": "Former VP, now Founder"
     },
@@ -168,7 +171,7 @@
       "role": "Software Engineer"
     },
     "quote3": {
-      "text": "As a financial advisor, I recommend shouldI to all my clients. It helps them visualize outcomes in a way spreadsheets never could.",
+      "text": "As a financial advisor, I recommend shouldi to all my clients. It helps them visualize outcomes in a way spreadsheets never could.",
       "author": "Jennifer L.",
       "role": "Certified Financial Planner"
     }
@@ -180,11 +183,11 @@
       "title": "Free",
       "price": "€0",
       "period": "forever",
-      "description": "Try shouldI with no commitment",
+      "description": "Simulate any topic for free",
       "features": [
-        "2 free scenarios",
-        "Change Jobs & Buy vs Rent",
-        "Core outcome analysis",
+        "2 scenarios on any topic",
+        "4-question analysis per scenario",
+        "Save & revisit your results",
         "Community support"
       ],
       "cta": "Get Started Free"
@@ -193,28 +196,28 @@
       "title": "Pay Per Scenario",
       "price": "€3.99",
       "period": "per simulation",
-      "description": "Unlock any premium scenario",
+      "description": "Deeper analysis for additional scenarios",
       "features": [
-        "Access any premium scenario",
-        "Full detailed simulation",
-        "Complete outcome analysis",
-        "48-hour access to results"
+        "Any additional scenario beyond free 2",
+        "10-question in-depth analysis",
+        "More accurate, case-specific predictions",
+        "Detailed personalized insights"
       ],
-      "cta": "Buy Simulation"
+      "cta": "Coming Soon"
     },
     "monthly": {
       "title": "Pro",
-      "price": "€19",
+      "price": "€19.99",
       "period": "per month",
-      "description": "For serious life planners",
+      "description": "Unlimited scenarios, maximum detail",
       "features": [
-        "Unlimited simulations",
-        "All premium scenarios",
+        "Unlimited simulations on any topic",
+        "10-question in-depth analysis",
         "Save & compare results",
         "Priority support",
         "Early access to new features"
       ],
-      "cta": "Start Free Trial",
+      "cta": "Coming Soon",
       "popular": "Most Popular"
     },
     "freeTrial": "Try free for 7 days",
@@ -222,7 +225,7 @@
   },
   "faq": {
     "title": "Frequently Asked Questions",
-    "subtitle": "Everything you need to know about shouldI",
+    "subtitle": "Everything you need to know about shouldi",
     "q1": {
       "question": "How accurate are the simulations?",
       "answer": "Our models are based on real-world economic data, actuarial tables, and peer-reviewed research. While no prediction is perfect, we provide confidence ranges to help you understand the uncertainty. Most users find our predictions align closely with their actual outcomes."
@@ -236,8 +239,8 @@
       "answer": "Absolutely. We never sell or share your personal data. Your scenarios are encrypted and only accessible to you. You can delete your data at any time."
     },
     "q4": {
-      "question": "What's the difference between free and premium scenarios?",
-      "answer": "Free scenarios give you a taste of our simulation engine. Premium scenarios include more detailed models, additional factors, longer time horizons, and advanced outcome metrics."
+      "question": "What's the difference between free and paid plans?",
+      "answer": "The free plan lets you simulate any 2 topics with a 4-question analysis. Paid plans (per-scenario or Pro) use a 10-question in-depth analysis for more accurate, case-specific predictions. Pro gives you unlimited simulations."
     },
     "q5": {
       "question": "Can I cancel my subscription anytime?",
@@ -255,7 +258,7 @@
   },
   "moreSimulations": {
     "title": "Want More Simulations?",
-    "description": "Unlock unlimited scenarios, detailed analysis, and premium features with a shouldI account.",
+    "description": "Unlock unlimited scenarios, detailed analysis, and premium features with a shouldi account.",
     "cta": "Get Started Free"
   },
   "footer": {
@@ -287,7 +290,7 @@
       "terms": "Terms of Service",
       "cookies": "Cookie Policy"
     },
-    "copyright": "© 2025 shouldI. All rights reserved."
+    "copyright": "© 2025 shouldi. All rights reserved."
   },
   "auth": {
     "signInTitle": "Welcome back",
