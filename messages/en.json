@@ -20,8 +20,8 @@
     "subtitle": "Life's biggest decisions shouldn't feel like guesswork. Our AI-powered simulator models real outcomes so you can choose with clarity.",
     "inputPlaceholder": "Should I...",
     "simulate": "Simulate",
-    "tryExample": "Ask any question, answer 2 quick questions, and get a free analysis",
-    "freeHint": "Log in to save results, get deeper analysis, and unlock unlimited scenarios"
+    "tryExample": "Ask anything, answer 2 quick questions, and get a free analysis",
+    "freeHint": "Log in to get deeper analysis, save results, and compare scenarios"
   },
   "scenarios": {
     "title": "Popular Scenarios",
@@ -118,7 +118,7 @@
     "subtitle": "Make confident decisions in three simple steps",
     "step1": {
       "title": "Should I ...?",
-      "description": "Describe any life decision in your own words—just type a \"Should I...?\" question in natural language."
+      "description": "Just type a \"Should I...?\" question in natural language."
     },
     "step2": {
       "title": "Answer a Few Questions",

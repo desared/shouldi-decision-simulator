@@ -1,14 +1,13 @@
 "use client"
 
 import { useTranslations } from 'next-intl'
-import { Briefcase, MapPin, Home, MessageCircleQuestion, Lock } from 'lucide-react'
+import { Briefcase, MapPin, Home } from 'lucide-react'
 
 interface ScenariosSectionProps {
   onSelectScenario: (id: string) => void
-  onPremiumClick: () => void
 }
 
-export function ScenariosSection({ onSelectScenario, onPremiumClick }: ScenariosSectionProps) {
+export function ScenariosSection({ onSelectScenario }: ScenariosSectionProps) {
   const t = useTranslations('scenarios')
 
   const scenarios = [
@@ -17,28 +16,18 @@ export function ScenariosSection({ onSelectScenario, onPremiumClick }: Scenarios
       icon: Briefcase,
       titleKey: 'jobChange.title',
       descriptionKey: 'jobChange.description',
-      premium: false
     },
     {
       id: 'buy-rent',
       icon: Home,
       titleKey: 'buyRent.title',
       descriptionKey: 'buyRent.description',
-      premium: false
     },
     {
       id: 'relocate',
       icon: MapPin,
       titleKey: 'relocate.title',
       descriptionKey: 'relocate.description',
-      premium: false
-    },
-    {
-      id: 'ask-anything',
-      icon: MessageCircleQuestion,
-      titleKey: 'askAnything.title',
-      descriptionKey: 'askAnything.description',
-      premium: true
     }
   ]
 
@@ -54,37 +43,22 @@ export function ScenariosSection({ onSelectScenario, onPremiumClick }: Scenarios
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {scenarios.map((scenario) => (
             <button
               key={scenario.id}
-              onClick={() => scenario.premium ? onPremiumClick() : onSelectScenario(scenario.id)}
-              className={`group relative overflow-hidden rounded-2xl border p-6 text-left transition-all hover:shadow-lg ${
-                scenario.premium
-                  ? 'border-border bg-card/50 hover:border-accent/50'
-                  : 'border-border bg-card hover:border-primary/50'
-              }`}
+              onClick={() => onSelectScenario(scenario.id)}
+              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 text-left transition-all hover:shadow-lg hover:border-primary/50"
             >
               {/* Badge */}
               <div className="absolute top-4 right-4">
-                {scenario.premium ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
-                    <Lock className="h-3 w-3" />
-                    {t('loginRequired')}
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                    {t('free')}
-                  </span>
-                )}
+                <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  {t('free')}
+                </span>
               </div>
 
               {/* Icon */}
-              <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-colors ${
-                scenario.premium
-                  ? 'bg-accent/10 text-accent group-hover:bg-accent group-hover:text-white'
-                  : 'bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white'
-              }`}>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
                 <scenario.icon className="h-6 w-6" />
               </div>
 
@@ -97,10 +71,8 @@ export function ScenariosSection({ onSelectScenario, onPremiumClick }: Scenarios
               </p>
 
               {/* Action hint */}
-              <div className={`flex items-center text-sm font-medium ${
-                scenario.premium ? 'text-muted-foreground' : 'text-primary'
-              }`}>
-                {scenario.premium ? t('loginToUnlock') : t('tryScenario')}
+              <div className="flex items-center text-sm font-medium text-primary">
+                {t('tryScenario')}
                 <svg
                   className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
                   fill="none"
@@ -110,11 +82,6 @@ export function ScenariosSection({ onSelectScenario, onPremiumClick }: Scenarios
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-
-              {/* Premium overlay */}
-              {scenario.premium && (
-                <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
-              )}
             </button>
           ))}
         </div>
