@@ -24,11 +24,12 @@ interface SurveyModalProps {
   userQuestion: string
   questionCount?: number
   bestCaseOnly?: boolean
+  onSignUp?: () => void
 }
 
 type SurveyStep = "loading" | "questions" | "generating" | "results"
 
-export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, bestCaseOnly = false }: SurveyModalProps) {
+export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, bestCaseOnly = false, onSignUp }: SurveyModalProps) {
   const t = useTranslations('survey')
   const locale = useLocale()
   const [step, setStep] = useState<SurveyStep>("loading")
@@ -241,10 +242,15 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
             </div>
 
             {/* Actions */}
-            <div className="flex justify-center pt-4">
-              <Button onClick={onClose} className="gap-2">
+            <div className="flex justify-center gap-3 pt-4">
+              <Button variant="outline" onClick={onClose} className="gap-2">
                 {t('done')}
               </Button>
+              {onSignUp && (
+                <Button onClick={onSignUp} className="gap-2 gradient-primary text-white">
+                  {t('signUpDeeper')}
+                </Button>
+              )}
             </div>
           </div>
         )}

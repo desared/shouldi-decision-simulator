@@ -239,6 +239,11 @@ export default function ShouldISimulator() {
         userQuestion={surveyQuestion}
         questionCount={2}
         bestCaseOnly={true}
+        onSignUp={() => {
+          setIsSurveyOpen(false)
+          setAuthMode('signup')
+          setIsAuthOpen(true)
+        }}
       />
     </div>
   )
