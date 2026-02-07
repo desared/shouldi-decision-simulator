@@ -43,6 +43,9 @@ async function withRetry<T>(
     throw lastError;
 }
 
+const getLanguageInstruction = (locale: string) =>
+    locale === "de" ? "\n\nIMPORTANT: All questions, options, titles, descriptions, recommendations, and summaries MUST be written in German (Deutsch)." : "";
+
 const getSurveyPrompt = (questionCount: number) => `You are a life decision advisor. Given a user's "Should I...?" question, generate exactly ${questionCount} thoughtful survey questions to help assess their situation.
 
 Each question should:
@@ -119,12 +122,13 @@ Return ONLY valid JSON in this exact format (no markdown, no code blocks):
 
 export async function generateSurveyQuestionsAction(
     userQuestion: string,
-    questionCount: number = 4
+    questionCount: number = 4,
+    locale: string = "en"
 ): Promise<GeminiSurveyResponse> {
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 
-        const prompt = `${getSurveyPrompt(questionCount)}
+        const prompt = `${getSurveyPrompt(questionCount)}${getLanguageInstruction(locale)}
 
 User's question: "${userQuestion}"
 
@@ -148,49 +152,92 @@ Generate ${questionCount} relevant survey questions for this specific decision.`
     } catch (error) {
         console.error("Error generating survey questions (Server Action):", error);
         // Return fallback questions
+        const fallbackEn = [
+            {
+                id: "q1",
+                question: "How do you feel about your current situation?",
+                options: [
+                    { value: "strongly_negative", label: "Very unhappy" },
+                    { value: "negative", label: "Somewhat unhappy" },
+                    { value: "positive", label: "Okay" },
+                    { value: "strongly_positive", label: "Very happy" },
+                ],
+            },
+            {
+                id: "q2",
+                question: "Have you thoroughly researched your options?",
+                options: [
+                    { value: "strongly_negative", label: "Not at all" },
+                    { value: "negative", label: "A little bit" },
+                    { value: "positive", label: "Quite a bit" },
+                    { value: "strongly_positive", label: "Extensively" },
+                ],
+            },
+            {
+                id: "q3",
+                question: "How urgent is this decision for you?",
+                options: [
+                    { value: "strongly_negative", label: "Not urgent at all" },
+                    { value: "negative", label: "Can wait a while" },
+                    { value: "positive", label: "Fairly urgent" },
+                    { value: "strongly_positive", label: "Very urgent" },
+                ],
+            },
+            {
+                id: "q4",
+                question: "Do you have support from people you trust?",
+                options: [
+                    { value: "strongly_negative", label: "No support" },
+                    { value: "negative", label: "Little support" },
+                    { value: "positive", label: "Some support" },
+                    { value: "strongly_positive", label: "Strong support" },
+                ],
+            },
+        ];
+        const fallbackDe = [
+            {
+                id: "q1",
+                question: "Wie fühlen Sie sich in Ihrer aktuellen Situation?",
+                options: [
+                    { value: "strongly_negative", label: "Sehr unzufrieden" },
+                    { value: "negative", label: "Etwas unzufrieden" },
+                    { value: "positive", label: "In Ordnung" },
+                    { value: "strongly_positive", label: "Sehr zufrieden" },
+                ],
+            },
+            {
+                id: "q2",
+                question: "Haben Sie Ihre Optionen gründlich recherchiert?",
+                options: [
+                    { value: "strongly_negative", label: "Überhaupt nicht" },
+                    { value: "negative", label: "Ein wenig" },
+                    { value: "positive", label: "Ziemlich viel" },
+                    { value: "strongly_positive", label: "Umfassend" },
+                ],
+            },
+            {
+                id: "q3",
+                question: "Wie dringend ist diese Entscheidung für Sie?",
+                options: [
+                    { value: "strongly_negative", label: "Gar nicht dringend" },
+                    { value: "negative", label: "Kann noch warten" },
+                    { value: "positive", label: "Ziemlich dringend" },
+                    { value: "strongly_positive", label: "Sehr dringend" },
+                ],
+            },
+            {
+                id: "q4",
+                question: "Haben Sie Unterstützung von vertrauenswürdigen Personen?",
+                options: [
+                    { value: "strongly_negative", label: "Keine Unterstützung" },
+                    { value: "negative", label: "Wenig Unterstützung" },
+                    { value: "positive", label: "Etwas Unterstützung" },
+                    { value: "strongly_positive", label: "Starke Unterstützung" },
+                ],
+            },
+        ];
         return {
-            questions: [
-                {
-                    id: "q1",
-                    question: "How do you feel about your current situation?",
-                    options: [
-                        { value: "strongly_negative", label: "Very unhappy" },
-                        { value: "negative", label: "Somewhat unhappy" },
-                        { value: "positive", label: "Okay" },
-                        { value: "strongly_positive", label: "Very happy" },
-                    ],
-                },
-                {
-                    id: "q2",
-                    question: "Have you thoroughly researched your options?",
-                    options: [
-                        { value: "strongly_negative", label: "Not at all" },
-                        { value: "negative", label: "A little bit" },
-                        { value: "positive", label: "Quite a bit" },
-                        { value: "strongly_positive", label: "Extensively" },
-                    ],
-                },
-                {
-                    id: "q3",
-                    question: "How urgent is this decision for you?",
-                    options: [
-                        { value: "strongly_negative", label: "Not urgent at all" },
-                        { value: "negative", label: "Can wait a while" },
-                        { value: "positive", label: "Fairly urgent" },
-                        { value: "strongly_positive", label: "Very urgent" },
-                    ],
-                },
-                {
-                    id: "q4",
-                    question: "Do you have support from people you trust?",
-                    options: [
-                        { value: "strongly_negative", label: "No support" },
-                        { value: "negative", label: "Little support" },
-                        { value: "positive", label: "Some support" },
-                        { value: "strongly_positive", label: "Strong support" },
-                    ],
-                },
-            ].slice(0, questionCount)
+            questions: (locale === "de" ? fallbackDe : fallbackEn).slice(0, questionCount)
         };
     }
 }
@@ -198,7 +245,8 @@ Generate ${questionCount} relevant survey questions for this specific decision.`
 export async function generateOutcomesAction(
     userQuestion: string,
     answers: Record<string, { question: string; answer: string }>,
-    bestCaseOnly: boolean = false
+    bestCaseOnly: boolean = false,
+    locale: string = "en"
 ): Promise<GeminiOutcomeResponse> {
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
@@ -207,7 +255,7 @@ export async function generateOutcomesAction(
             .map(([, { question, answer }]) => `Q: ${question}\nA: ${answer}`)
             .join("\n\n");
 
-        const prompt = `${getOutcomePrompt(bestCaseOnly)}
+        const prompt = `${getOutcomePrompt(bestCaseOnly)}${getLanguageInstruction(locale)}
 
 User's original question: "${userQuestion}"
 
@@ -234,6 +282,41 @@ Analyze these responses and provide outcomes.`;
     } catch (error) {
         console.error("Error generating outcomes (Server Action):", error);
         // Return fallback outcomes
+        if (locale === "de") {
+            return {
+                outcomes: [
+                    {
+                        title: "Positives Ergebnis",
+                        description:
+                            "Basierend auf Ihren Antworten könnte diese Veränderung zu positiven Ergebnissen führen.",
+                        confidence: "medium",
+                        confidenceInterval: "60-75%",
+                        recommendation:
+                            "Erwägen Sie, mit sorgfältiger Planung und Vorbereitung voranzuschreiten.",
+                    },
+                    {
+                        title: "Neutrales Ergebnis",
+                        description:
+                            "Die Situation wird sich möglicherweise in keiner Richtung wesentlich verändern.",
+                        confidence: "medium",
+                        confidenceInterval: "40-60%",
+                        recommendation:
+                            "Nehmen Sie sich mehr Zeit, um Ihre Optionen zu bewerten, bevor Sie sich entscheiden.",
+                    },
+                    {
+                        title: "Vorsichtiges Ergebnis",
+                        description:
+                            "Es könnten Herausforderungen bevorstehen, die Aufmerksamkeit erfordern.",
+                        confidence: "low",
+                        confidenceInterval: "20-40%",
+                        recommendation:
+                            "Gehen Sie mögliche Hindernisse an, bevor Sie eine endgültige Entscheidung treffen.",
+                    },
+                ],
+                summary:
+                    "Basierend auf Ihren Antworten empfehlen wir, sich Zeit zu nehmen, um alle Faktoren sorgfältig abzuwägen, bevor Sie Ihre Entscheidung treffen.",
+            };
+        }
         return {
             outcomes: [
                 {

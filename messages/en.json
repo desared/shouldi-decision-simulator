@@ -20,7 +20,7 @@
     "subtitle": "Life's biggest decisions shouldn't feel like guesswork. Our AI-powered simulator models real outcomes so you can choose with clarity.",
     "inputPlaceholder": "Should I...",
     "simulate": "Simulate",
-    "tryExample": "Try: \"Should I change jobs?\" or \"Should I buy a home?\"",
+    "tryExample": "Ask any question, answer 2 quick questions, and get a free analysis",
     "freeHint": "Log in to save results, get deeper analysis, and unlock unlimited scenarios"
   },
   "scenarios": {
@@ -290,7 +290,7 @@
       "terms": "Terms of Service",
       "cookies": "Cookie Policy"
     },
-    "copyright": "© 2025 shouldi. All rights reserved."
+    "copyright": "© 2026 shouldi. All rights reserved."
   },
   "auth": {
     "signInTitle": "Welcome back",

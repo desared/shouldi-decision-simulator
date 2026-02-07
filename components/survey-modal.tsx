@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { Loader2, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react'
 import {
   Dialog,
@@ -30,6 +30,7 @@ type SurveyStep = "loading" | "questions" | "generating" | "results"
 
 export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, bestCaseOnly = false }: SurveyModalProps) {
   const t = useTranslations('survey')
+  const locale = useLocale()
   const [step, setStep] = useState<SurveyStep>("loading")
   const [questions, setQuestions] = useState<SurveyQuestion[]>([])
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -56,7 +57,7 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
   const loadQuestions = async () => {
     setStep("loading")
     try {
-      const response = await generateSurveyQuestionsAction(userQuestion, questionCount)
+      const response = await generateSurveyQuestionsAction(userQuestion, questionCount, locale)
       setQuestions(response.questions)
       setStep("questions")
     } catch (error) {
@@ -79,7 +80,7 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
       // All questions answered, generate outcomes
       setStep("generating")
       try {
-        const response = await generateOutcomesAction(userQuestion, answers, bestCaseOnly)
+        const response = await generateOutcomesAction(userQuestion, answers, bestCaseOnly, locale)
         setOutcomes(response)
         setStep("results")
       } catch (error) {

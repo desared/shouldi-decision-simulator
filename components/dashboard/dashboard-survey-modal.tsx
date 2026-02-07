@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { Loader2, ChevronRight, ChevronLeft, Sparkles, CheckCircle, Lock } from 'lucide-react'
 import {
   Dialog,
@@ -27,6 +27,7 @@ type SurveyStep = "loading" | "questions" | "generating" | "saving" | "results"
 
 export function DashboardSurveyModal({ isOpen, onClose, userQuestion }: DashboardSurveyModalProps) {
   const t = useTranslations('survey')
+  const locale = useLocale()
   const [step, setStep] = useState<SurveyStep>("loading")
   const [questions, setQuestions] = useState<SurveyQuestion[]>([])
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -56,7 +57,7 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion }: Dashboar
     setStep("loading")
     try {
       // Use Server Action
-      const data = await generateSurveyQuestionsAction(userQuestion, 4) // Changed function name and argument
+      const data = await generateSurveyQuestionsAction(userQuestion, 4, locale)
       setQuestions(data.questions)
 
       // Initialize current answers (this part was in the user's snippet, but the original code handles answers differently)
@@ -96,7 +97,7 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion }: Dashboar
         })
 
         // Use Server Action
-        const data = await generateOutcomesAction(userQuestion, minimalAnswers)
+        const data = await generateOutcomesAction(userQuestion, minimalAnswers, false, locale)
         setOutcomes(data)
 
         // Auto-save scenario and simulation if user can save
