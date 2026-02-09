@@ -1,8 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { AlertTriangle, CreditCard, Trash2 } from "lucide-react"
+import { AlertTriangle, CreditCard, Globe, Palette, Trash2 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -84,6 +86,27 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free" }: 
                         <div className="rounded-lg border border-border p-4">
                             <h4 className="text-sm font-medium text-foreground mb-2">{t('settings.account')}</h4>
                             <p className="text-sm text-muted-foreground">{user?.email}</p>
+                        </div>
+
+                        {/* Preferences — theme & language */}
+                        <div className="rounded-lg border border-border p-4">
+                            <h4 className="text-sm font-medium text-foreground mb-3">{t('settings.preferences')}</h4>
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <Palette className="h-4 w-4 text-muted-foreground" />
+                                        <span className="text-sm text-muted-foreground">{t('settings.theme')}</span>
+                                    </div>
+                                    <ThemeToggle />
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <Globe className="h-4 w-4 text-muted-foreground" />
+                                        <span className="text-sm text-muted-foreground">{t('settings.language')}</span>
+                                    </div>
+                                    <LanguageSwitcher />
+                                </div>
+                            </div>
                         </div>
 
                         {/* Subscription Section */}
