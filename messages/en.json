@@ -440,5 +440,164 @@
       "reAuthRequired": "Please log out and log back in to delete your account.",
       "deleteError": "Failed to delete account. Please try again."
     }
+  },
+  "scenariosPage": {
+    "backHome": "Back to home",
+    "title": "Decision Scenarios",
+    "subtitle": "Choose a scenario to simulate and explore the possible outcomes of your decision",
+    "moreComingSoon": "More scenarios coming soon",
+    "moreComingSoonDesc": "We're working on new decision templates including education, investments, relationships, and more."
+  },
+  "aboutPage": {
+    "backHome": "Back to home",
+    "title": "About Us",
+    "subtitle": "Helping people make better decisions through AI-powered simulation.",
+    "missionTitle": "Our Mission",
+    "missionText": "We believe every major life decision deserves careful analysis. shouldi was built to give everyone access to powerful decision simulation tools that were once only available to analysts and consultants. Our goal is to reduce regret and increase confidence in the choices that shape your life.",
+    "storyTitle": "Our Story",
+    "storyText": "shouldi started with a simple observation: people spend more time researching a new phone than planning life-changing decisions like switching careers or buying a home. We set out to change that by creating a tool that makes it easy to explore different outcomes before committing to a path.",
+    "builtByTitle": "Built by ActOnData",
+    "builtByText": "shouldi is a product of ActOnData, a company focused on building intelligent tools that turn complex data into clear, actionable insights.",
+    "visitActOnData": "Visit ActOnData.io"
+  },
+  "helpPage": {
+    "backHome": "Back to home",
+    "title": "Help Center",
+    "subtitle": "Find answers to common questions about using shouldi",
+    "gettingStarted": {
+      "title": "Getting Started",
+      "q1": {
+        "question": "What is shouldi?",
+        "answer": "shouldi is an AI-powered decision simulator that helps you explore the possible outcomes of major life decisions like changing jobs, buying a home, or relocating to a new city."
+      },
+      "q2": {
+        "question": "How do I start a simulation?",
+        "answer": "Choose one of the available scenarios on the home page or create a custom scenario from your dashboard. Answer the guided questions, and our AI will generate a personalized analysis of your decision."
+      },
+      "q3": {
+        "question": "Is shouldi free to use?",
+        "answer": "Yes! You can run simulations for free with our three built-in scenarios. Premium plans with unlimited scenarios and advanced features are coming soon."
+      }
+    },
+    "simulations": {
+      "title": "Simulations",
+      "q1": {
+        "question": "How accurate are the simulations?",
+        "answer": "Our simulations are based on AI analysis and general decision-making frameworks. They provide directional guidance and help you think through different angles, but they should not replace professional financial or legal advice."
+      },
+      "q2": {
+        "question": "Can I save my simulation results?",
+        "answer": "Yes! Create a free account to save your simulation results to your dashboard. You can revisit and compare your scenarios at any time."
+      },
+      "q3": {
+        "question": "Can I create custom scenarios?",
+        "answer": "Absolutely. From your dashboard, you can describe any decision and our AI will generate personalized questions and analysis tailored to your specific situation."
+      }
+    },
+    "account": {
+      "title": "Account & Data",
+      "q1": {
+        "question": "How do I create an account?",
+        "answer": "Click the Sign Up button on the home page. You can register with your email address or sign in directly with your Google account."
+      },
+      "q2": {
+        "question": "Can I delete my account?",
+        "answer": "Yes. Go to your dashboard, open Settings, and scroll to the Danger Zone section. You can permanently delete your account and all associated data from there."
+      },
+      "q3": {
+        "question": "Is my data secure?",
+        "answer": "Yes. We use Firebase Authentication for secure login and Firestore with strict security rules so that only you can access your simulation data. We never share your personal data with third parties."
+      }
+    },
+    "contactTitle": "Still have questions?",
+    "contactText": "Reach out to us at support@shouldi.app and we'll get back to you as soon as possible."
+  },
+  "guidesPage": {
+    "backHome": "Back to home",
+    "title": "Decision Guides",
+    "subtitle": "Proven frameworks to help you think through tough choices with clarity",
+    "proscons": {
+      "title": "Pros & Cons Analysis",
+      "description": "The classic approach to decision-making. List the advantages and disadvantages to see the full picture.",
+      "step1": "Write down every pro and con you can think of for each option.",
+      "step2": "Rate each item by importance (high, medium, low) to weigh what matters most.",
+      "step3": "Count the weighted results and see which option comes out ahead."
+    },
+    "weighted": {
+      "title": "Weighted Decision Matrix",
+      "description": "A structured method for comparing multiple options across several criteria with different priorities.",
+      "step1": "List your options and the criteria that matter (e.g. salary, location, growth).",
+      "step2": "Assign a weight (1-5) to each criterion based on how important it is to you.",
+      "step3": "Score each option against every criterion, multiply by weights, and compare totals."
+    },
+    "goals": {
+      "title": "Goal Alignment Check",
+      "description": "Evaluate decisions by how well they align with your short-term and long-term life goals.",
+      "step1": "Write down your top 3-5 life goals for the next 1, 5, and 10 years.",
+      "step2": "For each option, rate how much it moves you toward or away from each goal.",
+      "step3": "Choose the option that best supports the majority of your most important goals."
+    }
+  },
+  "privacyPage": {
+    "backHome": "Back to home",
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: February 2026",
+    "collect": {
+      "title": "Information We Collect",
+      "text": "When you create an account, we collect your email address and display name. When you use our service, we store your simulation inputs and results. We also collect basic usage analytics to improve the product. We do not collect or store any payment information directly."
+    },
+    "use": {
+      "title": "How We Use Your Information",
+      "text": "We use your information to provide and improve the shouldi service, including generating personalized simulations, saving your results, and communicating important updates about your account. We do not sell your personal data to third parties."
+    },
+    "sharing": {
+      "title": "Data Sharing",
+      "text": "We do not share your personal information with third parties except as required to operate the service (e.g. Firebase for authentication and data storage, Vercel for hosting) or as required by law."
+    },
+    "security": {
+      "title": "Data Security",
+      "text": "We use industry-standard security measures including encrypted connections (HTTPS), Firebase Authentication, and Firestore security rules that ensure only you can access your data. However, no method of transmission over the Internet is 100% secure."
+    },
+    "rights": {
+      "title": "Your Rights",
+      "text": "You have the right to access, correct, or delete your personal data at any time. You can delete your account and all associated data from the Settings page in your dashboard. If you have questions about your data, contact us at privacy@shouldi.app."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "text": "If you have any questions about this Privacy Policy, please contact us at privacy@shouldi.app. shouldi is a product of ActOnData (ActOnData.io)."
+    }
+  },
+  "termsPage": {
+    "backHome": "Back to home",
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: February 2026",
+    "acceptance": {
+      "title": "Acceptance of Terms",
+      "text": "By accessing or using shouldi, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the service. shouldi is operated by ActOnData (ActOnData.io)."
+    },
+    "services": {
+      "title": "Description of Services",
+      "text": "shouldi provides AI-powered decision simulation tools that help users explore possible outcomes of life decisions. The simulations are for informational purposes only and should not be considered professional financial, legal, or medical advice."
+    },
+    "accounts": {
+      "title": "User Accounts",
+      "text": "You are responsible for maintaining the confidentiality of your account credentials. You must provide accurate information when creating an account. You may not use another person's account without permission. We reserve the right to suspend or terminate accounts that violate these terms."
+    },
+    "content": {
+      "title": "User Content",
+      "text": "You retain ownership of the data you input into simulations. By using the service, you grant us a limited license to process your inputs to generate simulation results. We do not claim ownership of your data and will not use your personal simulation data for purposes other than providing the service."
+    },
+    "liability": {
+      "title": "Limitation of Liability",
+      "text": "shouldi is provided \"as is\" without warranties of any kind. We are not liable for decisions made based on simulation results. The service is a tool to assist with decision-making, not a substitute for professional advice. In no event shall shouldi or ActOnData be liable for any indirect, incidental, or consequential damages."
+    },
+    "changes": {
+      "title": "Changes to Terms",
+      "text": "We may update these terms from time to time. We will notify registered users of significant changes via email. Continued use of the service after changes constitutes acceptance of the updated terms."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "text": "If you have questions about these Terms of Service, please contact us at legal@shouldi.app. shouldi is a product of ActOnData (ActOnData.io)."
+    }
   }
 }

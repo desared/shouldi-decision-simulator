@@ -440,5 +440,164 @@
       "reAuthRequired": "Bitte melden Sie sich ab und wieder an, um Ihr Konto zu löschen.",
       "deleteError": "Konto konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
     }
+  },
+  "scenariosPage": {
+    "backHome": "Zurück zur Startseite",
+    "title": "Entscheidungsszenarien",
+    "subtitle": "Wählen Sie ein Szenario, um die möglichen Ergebnisse Ihrer Entscheidung zu simulieren und zu erkunden",
+    "moreComingSoon": "Weitere Szenarien in Kürze",
+    "moreComingSoonDesc": "Wir arbeiten an neuen Entscheidungsvorlagen zu den Themen Bildung, Investitionen, Beziehungen und mehr."
+  },
+  "aboutPage": {
+    "backHome": "Zurück zur Startseite",
+    "title": "Über uns",
+    "subtitle": "Wir helfen Menschen, bessere Entscheidungen durch KI-gestützte Simulation zu treffen.",
+    "missionTitle": "Unsere Mission",
+    "missionText": "Wir glauben, dass jede wichtige Lebensentscheidung eine sorgfältige Analyse verdient. shouldi wurde entwickelt, um jedem Zugang zu leistungsstarken Entscheidungssimulationstools zu geben, die früher nur Analysten und Beratern zur Verfügung standen. Unser Ziel ist es, Reue zu reduzieren und das Vertrauen in die Entscheidungen zu stärken, die Ihr Leben prägen.",
+    "storyTitle": "Unsere Geschichte",
+    "storyText": "shouldi begann mit einer einfachen Beobachtung: Menschen verbringen mehr Zeit damit, ein neues Handy zu recherchieren, als lebensverändernde Entscheidungen wie einen Jobwechsel oder den Kauf eines Hauses zu planen. Wir haben es uns zur Aufgabe gemacht, das zu ändern, indem wir ein Tool entwickelt haben, mit dem man verschiedene Ergebnisse erkunden kann, bevor man sich festlegt.",
+    "builtByTitle": "Entwickelt von ActOnData",
+    "builtByText": "shouldi ist ein Produkt von ActOnData, einem Unternehmen, das sich auf die Entwicklung intelligenter Tools spezialisiert hat, die komplexe Daten in klare, umsetzbare Erkenntnisse verwandeln.",
+    "visitActOnData": "ActOnData.io besuchen"
+  },
+  "helpPage": {
+    "backHome": "Zurück zur Startseite",
+    "title": "Hilfe-Center",
+    "subtitle": "Finden Sie Antworten auf häufige Fragen zur Nutzung von shouldi",
+    "gettingStarted": {
+      "title": "Erste Schritte",
+      "q1": {
+        "question": "Was ist shouldi?",
+        "answer": "shouldi ist ein KI-gestützter Entscheidungssimulator, der Ihnen hilft, die möglichen Ergebnisse wichtiger Lebensentscheidungen zu erkunden, wie z.B. einen Jobwechsel, den Kauf eines Hauses oder den Umzug in eine neue Stadt."
+      },
+      "q2": {
+        "question": "Wie starte ich eine Simulation?",
+        "answer": "Wählen Sie eines der verfügbaren Szenarien auf der Startseite oder erstellen Sie ein benutzerdefiniertes Szenario in Ihrem Dashboard. Beantworten Sie die geführten Fragen und unsere KI erstellt eine personalisierte Analyse Ihrer Entscheidung."
+      },
+      "q3": {
+        "question": "Ist shouldi kostenlos?",
+        "answer": "Ja! Sie können Simulationen mit unseren drei integrierten Szenarien kostenlos durchführen. Premium-Pläne mit unbegrenzten Szenarien und erweiterten Funktionen sind in Kürze verfügbar."
+      }
+    },
+    "simulations": {
+      "title": "Simulationen",
+      "q1": {
+        "question": "Wie genau sind die Simulationen?",
+        "answer": "Unsere Simulationen basieren auf KI-Analysen und allgemeinen Entscheidungsrahmen. Sie bieten eine richtungsweisende Orientierung und helfen Ihnen, verschiedene Blickwinkel durchzudenken, sollten jedoch keine professionelle Finanz- oder Rechtsberatung ersetzen."
+      },
+      "q2": {
+        "question": "Kann ich meine Simulationsergebnisse speichern?",
+        "answer": "Ja! Erstellen Sie ein kostenloses Konto, um Ihre Simulationsergebnisse in Ihrem Dashboard zu speichern. Sie können Ihre Szenarien jederzeit erneut aufrufen und vergleichen."
+      },
+      "q3": {
+        "question": "Kann ich benutzerdefinierte Szenarien erstellen?",
+        "answer": "Auf jeden Fall. In Ihrem Dashboard können Sie jede Entscheidung beschreiben und unsere KI generiert personalisierte Fragen und Analysen, die auf Ihre spezifische Situation zugeschnitten sind."
+      }
+    },
+    "account": {
+      "title": "Konto & Daten",
+      "q1": {
+        "question": "Wie erstelle ich ein Konto?",
+        "answer": "Klicken Sie auf der Startseite auf Registrieren. Sie können sich mit Ihrer E-Mail-Adresse registrieren oder sich direkt mit Ihrem Google-Konto anmelden."
+      },
+      "q2": {
+        "question": "Kann ich mein Konto löschen?",
+        "answer": "Ja. Gehen Sie zu Ihrem Dashboard, öffnen Sie die Einstellungen und scrollen Sie zum Bereich Gefahrenzone. Dort können Sie Ihr Konto und alle zugehörigen Daten dauerhaft löschen."
+      },
+      "q3": {
+        "question": "Sind meine Daten sicher?",
+        "answer": "Ja. Wir verwenden Firebase Authentication für sichere Anmeldungen und Firestore mit strengen Sicherheitsregeln, sodass nur Sie auf Ihre Simulationsdaten zugreifen können. Wir geben Ihre persönlichen Daten niemals an Dritte weiter."
+      }
+    },
+    "contactTitle": "Noch Fragen?",
+    "contactText": "Kontaktieren Sie uns unter support@shouldi.app und wir melden uns so schnell wie möglich bei Ihnen."
+  },
+  "guidesPage": {
+    "backHome": "Zurück zur Startseite",
+    "title": "Entscheidungs-Guides",
+    "subtitle": "Bewährte Rahmenwerke, die Ihnen helfen, schwierige Entscheidungen klar durchzudenken",
+    "proscons": {
+      "title": "Pro- & Contra-Analyse",
+      "description": "Der klassische Ansatz zur Entscheidungsfindung. Listen Sie Vor- und Nachteile auf, um das Gesamtbild zu sehen.",
+      "step1": "Schreiben Sie alle Vor- und Nachteile auf, die Ihnen für jede Option einfallen.",
+      "step2": "Bewerten Sie jeden Punkt nach Wichtigkeit (hoch, mittel, niedrig), um zu gewichten, was am meisten zählt.",
+      "step3": "Zählen Sie die gewichteten Ergebnisse zusammen und sehen Sie, welche Option vorne liegt."
+    },
+    "weighted": {
+      "title": "Gewichtete Entscheidungsmatrix",
+      "description": "Eine strukturierte Methode zum Vergleich mehrerer Optionen anhand verschiedener Kriterien mit unterschiedlichen Prioritäten.",
+      "step1": "Listen Sie Ihre Optionen und die wichtigen Kriterien auf (z.B. Gehalt, Standort, Wachstum).",
+      "step2": "Weisen Sie jedem Kriterium eine Gewichtung (1-5) zu, basierend darauf, wie wichtig es Ihnen ist.",
+      "step3": "Bewerten Sie jede Option anhand jedes Kriteriums, multiplizieren Sie mit den Gewichtungen und vergleichen Sie die Gesamtwerte."
+    },
+    "goals": {
+      "title": "Zielabgleich",
+      "description": "Bewerten Sie Entscheidungen danach, wie gut sie mit Ihren kurz- und langfristigen Lebenszielen übereinstimmen.",
+      "step1": "Schreiben Sie Ihre 3-5 wichtigsten Lebensziele für die nächsten 1, 5 und 10 Jahre auf.",
+      "step2": "Bewerten Sie für jede Option, wie sehr sie Sie auf jedes Ziel zu- oder davon wegbewegt.",
+      "step3": "Wählen Sie die Option, die die Mehrheit Ihrer wichtigsten Ziele am besten unterstützt."
+    }
+  },
+  "privacyPage": {
+    "backHome": "Zurück zur Startseite",
+    "title": "Datenschutzerklärung",
+    "lastUpdated": "Letzte Aktualisierung: Februar 2026",
+    "collect": {
+      "title": "Welche Daten wir erheben",
+      "text": "Wenn Sie ein Konto erstellen, erheben wir Ihre E-Mail-Adresse und Ihren Anzeigenamen. Bei der Nutzung unseres Dienstes speichern wir Ihre Simulationseingaben und -ergebnisse. Wir erfassen auch grundlegende Nutzungsanalysen zur Verbesserung des Produkts. Wir erheben oder speichern keine Zahlungsinformationen direkt."
+    },
+    "use": {
+      "title": "Wie wir Ihre Daten verwenden",
+      "text": "Wir verwenden Ihre Daten, um den shouldi-Service bereitzustellen und zu verbessern, einschließlich der Erstellung personalisierter Simulationen, der Speicherung Ihrer Ergebnisse und der Kommunikation wichtiger Updates zu Ihrem Konto. Wir verkaufen Ihre persönlichen Daten nicht an Dritte."
+    },
+    "sharing": {
+      "title": "Datenweitergabe",
+      "text": "Wir geben Ihre persönlichen Daten nicht an Dritte weiter, es sei denn, dies ist für den Betrieb des Dienstes erforderlich (z.B. Firebase für Authentifizierung und Datenspeicherung, Vercel für Hosting) oder gesetzlich vorgeschrieben."
+    },
+    "security": {
+      "title": "Datensicherheit",
+      "text": "Wir verwenden branchenübliche Sicherheitsmaßnahmen, darunter verschlüsselte Verbindungen (HTTPS), Firebase Authentication und Firestore-Sicherheitsregeln, die sicherstellen, dass nur Sie auf Ihre Daten zugreifen können. Keine Übertragungsmethode über das Internet ist jedoch zu 100% sicher."
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "text": "Sie haben jederzeit das Recht, auf Ihre persönlichen Daten zuzugreifen, sie zu korrigieren oder zu löschen. Sie können Ihr Konto und alle zugehörigen Daten über die Einstellungsseite in Ihrem Dashboard löschen. Bei Fragen zu Ihren Daten kontaktieren Sie uns unter privacy@shouldi.app."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "text": "Wenn Sie Fragen zu dieser Datenschutzerklärung haben, kontaktieren Sie uns bitte unter privacy@shouldi.app. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
+    }
+  },
+  "termsPage": {
+    "backHome": "Zurück zur Startseite",
+    "title": "Nutzungsbedingungen",
+    "lastUpdated": "Letzte Aktualisierung: Februar 2026",
+    "acceptance": {
+      "title": "Annahme der Bedingungen",
+      "text": "Durch den Zugriff auf oder die Nutzung von shouldi stimmen Sie diesen Nutzungsbedingungen zu. Wenn Sie diesen Bedingungen nicht zustimmen, nutzen Sie den Dienst bitte nicht. shouldi wird von ActOnData (ActOnData.io) betrieben."
+    },
+    "services": {
+      "title": "Beschreibung der Dienste",
+      "text": "shouldi bietet KI-gestützte Entscheidungssimulationstools, die Nutzern helfen, mögliche Ergebnisse von Lebensentscheidungen zu erkunden. Die Simulationen dienen nur zu Informationszwecken und sollten nicht als professionelle Finanz-, Rechts- oder medizinische Beratung betrachtet werden."
+    },
+    "accounts": {
+      "title": "Benutzerkonten",
+      "text": "Sie sind für die Wahrung der Vertraulichkeit Ihrer Kontodaten verantwortlich. Sie müssen bei der Kontoerstellung korrekte Angaben machen. Sie dürfen das Konto einer anderen Person nicht ohne deren Erlaubnis nutzen. Wir behalten uns das Recht vor, Konten zu sperren oder zu kündigen, die gegen diese Bedingungen verstoßen."
+    },
+    "content": {
+      "title": "Nutzerinhalte",
+      "text": "Sie behalten das Eigentum an den Daten, die Sie in Simulationen eingeben. Durch die Nutzung des Dienstes gewähren Sie uns eine eingeschränkte Lizenz zur Verarbeitung Ihrer Eingaben, um Simulationsergebnisse zu generieren. Wir beanspruchen kein Eigentum an Ihren Daten und verwenden Ihre persönlichen Simulationsdaten nicht für andere Zwecke als die Bereitstellung des Dienstes."
+    },
+    "liability": {
+      "title": "Haftungsbeschränkung",
+      "text": "shouldi wird ohne jegliche Gewährleistung bereitgestellt. Wir haften nicht für Entscheidungen, die auf Grundlage von Simulationsergebnissen getroffen werden. Der Dienst ist ein Werkzeug zur Unterstützung der Entscheidungsfindung, kein Ersatz für professionelle Beratung. In keinem Fall haften shouldi oder ActOnData für indirekte, zufällige oder Folgeschäden."
+    },
+    "changes": {
+      "title": "Änderungen der Bedingungen",
+      "text": "Wir können diese Bedingungen von Zeit zu Zeit aktualisieren. Wir werden registrierte Nutzer per E-Mail über wesentliche Änderungen informieren. Die fortgesetzte Nutzung des Dienstes nach Änderungen gilt als Annahme der aktualisierten Bedingungen."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "text": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, kontaktieren Sie uns bitte unter legal@shouldi.app. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
+    }
   }
 }

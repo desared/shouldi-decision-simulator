@@ -1,16 +1,20 @@
 "use client"
 
 import { useTranslations } from 'next-intl'
+import { useParams } from 'next/navigation'
+import Link from 'next/link'
 import { LogoIcon } from '@/components/logo-icon'
 
 export function FooterSection() {
   const t = useTranslations('footer')
+  const params = useParams()
+  const locale = params.locale || 'en'
 
   const footerLinks = [
     {
       title: t('product.title'),
       links: [
-        { label: t('product.scenarios'), href: '#' },
+        { label: t('product.scenarios'), href: `/${locale}/scenarios` },
         { label: t('product.pricing'), href: '#pricing' },
         { label: t('product.demo'), href: '#' },
         { label: t('product.api'), href: '#' }
@@ -19,7 +23,7 @@ export function FooterSection() {
     {
       title: t('company.title'),
       links: [
-        { label: t('company.about'), href: '#' },
+        { label: t('company.about'), href: `/${locale}/about` },
         { label: t('company.blog'), href: '#' },
         { label: t('company.careers'), href: '#' },
         { label: t('company.press'), href: '#' }
@@ -28,8 +32,8 @@ export function FooterSection() {
     {
       title: t('resources.title'),
       links: [
-        { label: t('resources.help'), href: '#' },
-        { label: t('resources.guides'), href: '#' },
+        { label: t('resources.help'), href: `/${locale}/help` },
+        { label: t('resources.guides'), href: `/${locale}/guides` },
         { label: t('resources.research'), href: '#' },
         { label: t('resources.community'), href: '#' }
       ]
@@ -37,8 +41,8 @@ export function FooterSection() {
     {
       title: t('legal.title'),
       links: [
-        { label: t('legal.privacy'), href: '#' },
-        { label: t('legal.terms'), href: '#' },
+        { label: t('legal.privacy'), href: `/${locale}/privacy` },
+        { label: t('legal.terms'), href: `/${locale}/terms` },
         { label: t('legal.cookies'), href: '#' }
       ]
     }
@@ -86,12 +90,21 @@ export function FooterSection() {
               <ul className="space-y-3">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {link.label}
-                    </a>
+                    {link.href.startsWith('#') ? (
+                      <a
+                        href={link.href}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
