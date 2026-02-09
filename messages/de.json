@@ -429,10 +429,7 @@
       "confirmDelete": "Ja, mein Konto löschen",
       "deleting": "Löschen...",
       "reAuthRequired": "Bitte melden Sie sich ab und wieder an, um Ihr Konto zu löschen.",
-      "deleteError": "Konto konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
-      "preferences": "Einstellungen",
-      "theme": "Design",
-      "language": "Sprache"
+      "deleteError": "Konto konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
     }
   }
 }

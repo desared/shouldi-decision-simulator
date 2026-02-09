@@ -54,10 +54,8 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                 </Link>
 
                 <div className="flex items-center gap-2 md:gap-4">
-                    <div className="hidden md:flex items-center gap-2">
-                        <ThemeToggle />
-                        <LanguageSwitcher />
-                    </div>
+                    <ThemeToggle />
+                    <LanguageSwitcher />
 
                     <div className="hidden md:block h-6 w-px bg-border" />
 

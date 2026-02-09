@@ -429,10 +429,7 @@
       "confirmDelete": "Yes, delete my account",
       "deleting": "Deleting...",
       "reAuthRequired": "Please log out and log back in to delete your account.",
-      "deleteError": "Failed to delete account. Please try again.",
-      "preferences": "Preferences",
-      "theme": "Theme",
-      "language": "Language"
+      "deleteError": "Failed to delete account. Please try again."
     }
   }
 }
