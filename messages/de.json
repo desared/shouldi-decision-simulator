@@ -310,7 +310,16 @@
     "verificationSentTitle": "E-Mail überprüfen",
     "verificationSentMessage": "Wir haben Ihnen eine Bestätigungs-E-Mail gesendet. Bitte bestätigen Sie diese und melden Sie sich an.",
     "loginButton": "Anmelden",
-    "emailNotVerified": "Bitte bestätigen Sie Ihre E-Mail-Adresse, bevor Sie sich anmelden. Überprüfen Sie Ihren Posteingang auf den Bestätigungslink."
+    "emailNotVerified": "Bitte bestätigen Sie Ihre E-Mail-Adresse, bevor Sie sich anmelden. Überprüfen Sie Ihren Posteingang auf den Bestätigungslink.",
+    "resetTitle": "Passwort zurücksetzen",
+    "resetSubtitle": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts",
+    "resetButton": "Link senden",
+    "resetSentTitle": "E-Mail überprüfen",
+    "resetSentMessage": "Wir haben Ihnen einen Link zum Zurücksetzen des Passworts gesendet. Bitte überprüfen Sie Ihren Posteingang und folgen Sie den Anweisungen.",
+    "backToLogin": "Zurück zur Anmeldung",
+    "resetUserNotFound": "Kein Konto mit dieser E-Mail-Adresse gefunden.",
+    "resetInvalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+    "resetError": "Fehler beim Senden der E-Mail. Bitte versuchen Sie es erneut."
   },
   "survey": {
     "title": "Lassen Sie uns Ihre Entscheidung erkunden",

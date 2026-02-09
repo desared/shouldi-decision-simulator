@@ -310,7 +310,16 @@
     "verificationSentTitle": "Check Your Email",
     "verificationSentMessage": "We have sent you a verification email. Please verify it and log in.",
     "loginButton": "Login",
-    "emailNotVerified": "Please verify your email before logging in. Check your inbox for the verification link."
+    "emailNotVerified": "Please verify your email before logging in. Check your inbox for the verification link.",
+    "resetTitle": "Reset your password",
+    "resetSubtitle": "Enter your email and we'll send you a link to reset your password",
+    "resetButton": "Send reset link",
+    "resetSentTitle": "Check Your Email",
+    "resetSentMessage": "We've sent a password reset link to your email. Please check your inbox and follow the instructions.",
+    "backToLogin": "Back to login",
+    "resetUserNotFound": "No account found with this email address.",
+    "resetInvalidEmail": "Please enter a valid email address.",
+    "resetError": "Failed to send reset email. Please try again."
   },
   "survey": {
     "title": "Let's explore your decision",

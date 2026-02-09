@@ -17,6 +17,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signOut,
   AuthError
 } from "firebase/auth"
@@ -32,13 +33,14 @@ interface AuthModalProps {
 
 export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModalProps) {
   const t = useTranslations('auth')
-  const [mode, setMode] = useState<'signin' | 'signup'>(defaultMode)
+  const [mode, setMode] = useState<'signin' | 'signup' | 'forgotPassword'>(defaultMode)
 
   useEffect(() => {
     if (isOpen) {
       setMode(defaultMode)
       setError(null)
       setVerificationSent(false)
+      setResetEmailSent(false)
     }
   }, [isOpen, defaultMode])
   const [email, setEmail] = useState('')
@@ -47,6 +49,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [verificationSent, setVerificationSent] = useState(false)
+  const [resetEmailSent, setResetEmailSent] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -127,11 +130,33 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
 
   const handleBackToLogin = () => {
     setVerificationSent(false)
+    setResetEmailSent(false)
     setMode('signin')
     setEmail('')
     setPassword('')
     setConfirmPassword('')
     setError(null)
+  }
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    setLoading(true)
+    try {
+      await sendPasswordResetEmail(auth, email)
+      setResetEmailSent(true)
+    } catch (err: any) {
+      const authError = err as AuthError
+      if (authError.code === 'auth/user-not-found') {
+        setError(t('resetUserNotFound'))
+      } else if (authError.code === 'auth/invalid-email') {
+        setError(t('resetInvalidEmail'))
+      } else {
+        setError(t('resetError'))
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (verificationSent) {
@@ -156,6 +181,87 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
             >
               {t('loginButton')}
             </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
+  if (resetEmailSent) {
+    return (
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-6">
+              <Mail className="h-8 w-8 text-primary" />
+            </div>
+            <DialogHeader className="text-center">
+              <DialogTitle className="text-2xl mb-2">
+                {t('resetSentTitle')}
+              </DialogTitle>
+              <DialogDescription className="text-base">
+                {t('resetSentMessage')}
+              </DialogDescription>
+            </DialogHeader>
+            <Button
+              onClick={handleBackToLogin}
+              className="mt-6 gradient-primary text-white"
+            >
+              {t('loginButton')}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
+  if (mode === 'forgotPassword') {
+    return (
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">
+              {t('resetTitle')}
+            </DialogTitle>
+            <DialogDescription>
+              {t('resetSubtitle')}
+            </DialogDescription>
+          </DialogHeader>
+
+          {error && (
+            <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleForgotPassword} className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="reset-email">{t('email')}</Label>
+              <Input
+                id="reset-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                disabled={loading}
+              />
+            </div>
+
+            <Button type="submit" className="w-full gradient-primary" disabled={loading}>
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t('resetButton')}
+            </Button>
+          </form>
+
+          <div className="text-center text-sm">
+            <button
+              type="button"
+              className="text-primary hover:underline font-medium"
+              onClick={handleBackToLogin}
+              disabled={loading}
+            >
+              {t('backToLogin')}
+            </button>
           </div>
         </DialogContent>
       </Dialog>
@@ -201,6 +307,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: AuthModal
                 <button
                   type="button"
                   className="text-xs text-primary hover:underline"
+                  onClick={() => { setMode('forgotPassword'); setError(null) }}
                 >
                   {t('forgotPassword')}
                 </button>
