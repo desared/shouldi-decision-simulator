@@ -444,9 +444,23 @@
   "scenariosPage": {
     "backHome": "Zurück zur Startseite",
     "title": "Entscheidungsszenarien",
-    "subtitle": "Wählen Sie ein Szenario, um die möglichen Ergebnisse Ihrer Entscheidung zu simulieren und zu erkunden",
-    "moreComingSoon": "Weitere Szenarien in Kürze",
-    "moreComingSoonDesc": "Wir arbeiten an neuen Entscheidungsvorlagen zu den Themen Bildung, Investitionen, Beziehungen und mehr."
+    "subtitle": "shouldi hilft Ihnen, wichtige Lebensentscheidungen durchzudenken, indem mögliche Ergebnisse simuliert werden. Hier sind die derzeit verfügbaren Szenarien — weitere folgen.",
+    "jobChange": {
+      "title": "Job wechseln",
+      "description": "Sie denken über einen Karrierewechsel, ein neues Angebot oder einen Branchenwechsel nach? Dieses Szenario führt Sie durch die wichtigsten Faktoren — Gehaltsveränderungen, Karrierewachstum, Pendelzeit und Arbeitszufriedenheit — damit Sie die realistische Bandbreite der Ergebnisse sehen, bevor Sie den Schritt wagen."
+    },
+    "buyRent": {
+      "title": "Kaufen vs. Mieten",
+      "description": "Eine der grössten finanziellen Entscheidungen Ihres Lebens. Dieses Szenario vergleicht die langfristigen finanziellen Auswirkungen eines Hauskaufs mit dem Weitermieten, unter Berücksichtigung von Immobilienpreisen, Zinssätzen, Markttrends und Ihrem persönlichen Zeithorizont."
+    },
+    "relocate": {
+      "title": "In eine neue Stadt ziehen",
+      "description": "Ein Umzug beeinflusst alles — Ihre Lebenshaltungskosten, Einkommenspotenzial, soziale Kontakte und allgemeine Lebensqualität. Dieses Szenario hilft Ihnen, die Vor- und Nachteile eines Umzugs abzuwägen, indem analysiert wird, wie sich die Veränderung auf Ihren Lebensstil und Ihre Finanzen auswirken könnte."
+    },
+    "custom": {
+      "title": "Jedes Szenario ist möglich",
+      "description": "Das sind nur die Ausgangspunkte. Mit shouldi können Sie jede Entscheidung in Ihren eigenen Worten beschreiben — von der Gründung eines Unternehmens über eine Rückkehr zur Ausbildung bis hin zu einem Sabbatjahr oder einer grossen Investition — und unsere KI erstellt eine personalisierte Simulation für Ihre individuelle Situation."
+    }
   },
   "aboutPage": {
     "backHome": "Zurück zur Startseite",
@@ -599,5 +613,50 @@
       "title": "Kontakt",
       "text": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, kontaktieren Sie uns bitte unter legal@shouldi.app. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
     }
+  },
+  "pricingPage": {
+    "backHome": "Zurück zur Startseite",
+    "title": "Einfache, transparente Preise",
+    "subtitle": "Starten Sie kostenlos und upgraden Sie bei Bedarf. Keine versteckten Gebühren, keine Überraschungen.",
+    "comingSoon": "Demnächst",
+    "free": {
+      "title": "Kostenlos",
+      "price": "\u20ac0",
+      "period": "für immer",
+      "description": "Starten Sie mit zwei vollständigen Simulationen zu jedem Thema — komplett kostenlos, keine Kreditkarte erforderlich.",
+      "features": [
+        "2 Szenarien zu jedem Thema",
+        "4-Fragen-Analyse pro Szenario",
+        "Ergebnisse speichern & abrufen",
+        "Community-Support"
+      ]
+    },
+    "perScenario": {
+      "title": "Pro Szenario",
+      "price": "\u20ac3,99",
+      "period": "pro Simulation",
+      "description": "Brauchen Sie mehr als zwei Szenarien? Schalten Sie zusätzliche Simulationen einzeln frei mit tieferer 10-Fragen-Analyse für genauere Ergebnisse.",
+      "features": [
+        "Jedes zusätzliche Szenario über die 2 kostenlosen hinaus",
+        "10-Fragen-Tiefenanalyse",
+        "Genauere, fallspezifische Vorhersagen",
+        "Detaillierte personalisierte Einblicke"
+      ]
+    },
+    "monthly": {
+      "title": "Pro",
+      "price": "\u20ac19,99",
+      "period": "pro Monat",
+      "description": "Für Power-User, die unbegrenzten Zugang möchten. Führen Sie so viele Simulationen durch, wie Sie brauchen, mit maximaler Detailtiefe, Prioritäts-Support und frühem Zugang zu neuen Funktionen.",
+      "features": [
+        "Unbegrenzte Simulationen zu jedem Thema",
+        "10-Fragen-Tiefenanalyse",
+        "Ergebnisse speichern & vergleichen",
+        "Prioritäts-Support",
+        "Früher Zugang zu neuen Funktionen"
+      ],
+      "popular": "Am beliebtesten"
+    },
+    "note": "Der kostenlose Plan ist jetzt verfügbar. Pro Szenario und Pro Pläne sind demnächst verfügbar."
   }
 }

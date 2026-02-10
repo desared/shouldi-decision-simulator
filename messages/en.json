@@ -444,9 +444,23 @@
   "scenariosPage": {
     "backHome": "Back to home",
     "title": "Decision Scenarios",
-    "subtitle": "Choose a scenario to simulate and explore the possible outcomes of your decision",
-    "moreComingSoon": "More scenarios coming soon",
-    "moreComingSoonDesc": "We're working on new decision templates including education, investments, relationships, and more."
+    "subtitle": "shouldi helps you think through major life decisions by simulating possible outcomes. Here are the scenarios currently available, with more on the way.",
+    "jobChange": {
+      "title": "Change Jobs",
+      "description": "Thinking about switching careers, accepting a new offer, or moving to a different industry? This scenario walks you through the key factors — salary changes, career growth potential, commute impact, and job satisfaction — to help you see the realistic range of outcomes before making the leap."
+    },
+    "buyRent": {
+      "title": "Buy vs Rent",
+      "description": "One of the biggest financial decisions you'll face. This scenario compares the long-term financial impact of buying a home versus continuing to rent, factoring in property prices, interest rates, market trends, and your personal timeline to give you a clear side-by-side comparison."
+    },
+    "relocate": {
+      "title": "Move to a New City",
+      "description": "Relocating affects everything — your cost of living, income potential, social connections, and overall quality of life. This scenario helps you weigh the trade-offs of moving to a new city by analyzing how the change could impact your lifestyle and finances over time."
+    },
+    "custom": {
+      "title": "Any Scenario Is Possible",
+      "description": "These are just the starting points. With shouldi, you can describe any decision in your own words — from starting a business and going back to school, to taking a gap year or making a major investment — and our AI will generate a personalized simulation tailored to your unique situation."
+    }
   },
   "aboutPage": {
     "backHome": "Back to home",
@@ -599,5 +613,50 @@
       "title": "Contact Us",
       "text": "If you have questions about these Terms of Service, please contact us at legal@shouldi.app. shouldi is a product of ActOnData (ActOnData.io)."
     }
+  },
+  "pricingPage": {
+    "backHome": "Back to home",
+    "title": "Simple, Transparent Pricing",
+    "subtitle": "Start free and upgrade when you need more. No hidden fees, no surprises.",
+    "comingSoon": "Coming Soon",
+    "free": {
+      "title": "Free",
+      "price": "\u20ac0",
+      "period": "forever",
+      "description": "Get started with two full simulations on any topic — completely free, no credit card required.",
+      "features": [
+        "2 scenarios on any topic",
+        "4-question analysis per scenario",
+        "Save & revisit your results",
+        "Community support"
+      ]
+    },
+    "perScenario": {
+      "title": "Pay Per Scenario",
+      "price": "\u20ac3.99",
+      "period": "per simulation",
+      "description": "Need more than two scenarios? Unlock additional simulations one at a time with deeper, 10-question analysis for more accurate results.",
+      "features": [
+        "Any additional scenario beyond free 2",
+        "10-question in-depth analysis",
+        "More accurate, case-specific predictions",
+        "Detailed personalized insights"
+      ]
+    },
+    "monthly": {
+      "title": "Pro",
+      "price": "\u20ac19.99",
+      "period": "per month",
+      "description": "For power users who want unlimited access. Run as many simulations as you need with maximum detail, priority support, and early access to new features.",
+      "features": [
+        "Unlimited simulations on any topic",
+        "10-question in-depth analysis",
+        "Save & compare results",
+        "Priority support",
+        "Early access to new features"
+      ],
+      "popular": "Most Popular"
+    },
+    "note": "The Free plan is available now. Pay Per Scenario and Pro plans are coming soon."
   }
 }
