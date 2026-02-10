@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
-import { ArrowRight, Search, Briefcase, Home, MapPin, GraduationCap, TrendingUp } from 'lucide-react'
+import { ArrowRight, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { InteractiveNetwork } from '@/components/interactive-network'
 
 interface HeroSectionProps {
   customQuestion: string
@@ -27,14 +26,6 @@ const rotatingQuestionsDe = [
   "Sollte ich ein Unternehmen gründen?",
   "Sollte ich wieder studieren?",
   "Sollte ich ein Haus kaufen?",
-]
-
-const floatingBubbles = [
-  { icon: Briefcase, labelEn: "Career?", labelDe: "Karriere?", className: "top-8 left-[8%]", delay: "" },
-  { icon: Home, labelEn: "Buy or rent?", labelDe: "Kaufen?", className: "top-16 right-[10%]", delay: "animation-delay-1000" },
-  { icon: MapPin, labelEn: "Relocate?", labelDe: "Umziehen?", className: "bottom-12 left-[5%]", delay: "animation-delay-3000" },
-  { icon: GraduationCap, labelEn: "Study?", labelDe: "Studieren?", className: "bottom-20 right-[7%]", delay: "animation-delay-2000" },
-  { icon: TrendingUp, labelEn: "Invest?", labelDe: "Investieren?", className: "top-1/2 left-[2%]", delay: "animation-delay-5000" },
 ]
 
 export function HeroSection({
@@ -75,34 +66,7 @@ export function HeroSection({
 
   return (
     <section className="relative overflow-hidden pb-16 pt-12 md:pb-24 md:pt-20">
-      {/* Background decoration */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-primary/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
-        <div className="absolute top-0 -right-4 w-72 h-72 bg-accent/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-primary/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
-      </div>
-
-      {/* Interactive particle network — desktop only */}
-      <div className="absolute inset-0 hidden md:block" style={{ zIndex: 1 }}>
-        <InteractiveNetwork particleCount={35} connectionDistance={130} mouseRadius={160} />
-      </div>
-
-      {/* Floating question bubbles — desktop only */}
-      <div className="absolute inset-0 hidden lg:block pointer-events-none" style={{ zIndex: 2 }}>
-        {floatingBubbles.map((bubble, i) => (
-          <div
-            key={i}
-            className={`absolute ${bubble.className} ${bubble.delay} animate-float flex items-center gap-2 rounded-full border border-primary/15 bg-card/60 backdrop-blur-sm px-3 py-1.5 shadow-sm opacity-60`}
-          >
-            <bubble.icon className="h-3.5 w-3.5 text-primary" />
-            <span className="text-xs font-medium text-muted-foreground">
-              {locale === 'de' ? bubble.labelDe : bubble.labelEn}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <div className="relative mx-auto max-w-6xl px-4" style={{ zIndex: 3 }}>
+      <div className="relative mx-auto max-w-6xl px-4">
         <div className="text-center">
           {/* Badge */}
           <div className="mb-6 inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
