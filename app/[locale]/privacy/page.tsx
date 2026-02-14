@@ -14,7 +14,7 @@ export default function PrivacyPage() {
   const params = useParams()
   const locale = params.locale || 'en'
 
-  const sections = ['collect', 'use', 'sharing', 'security', 'rights', 'contact']
+  const sections = ['collect', 'use', 'sharing', 'security', 'rights']
 
   return (
     <div className="min-h-screen bg-background">

@@ -3,18 +3,16 @@
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Mail } from 'lucide-react'
 import { LogoIcon } from '@/components/logo-icon'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageSwitcher } from '@/components/language-switcher'
 import { FooterSection } from '@/components/sections/footer-section'
 
-export default function TermsPage() {
-  const t = useTranslations('termsPage')
+export default function ContactPage() {
+  const t = useTranslations('contactPage')
   const params = useParams()
   const locale = params.locale || 'en'
-
-  const sections = ['acceptance', 'services', 'accounts', 'content', 'liability', 'changes']
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,24 +39,31 @@ export default function TermsPage() {
           {t('backHome')}
         </Link>
 
-        <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+        <h1 className="mb-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
           {t('title')}
         </h1>
-        <p className="text-sm text-muted-foreground mb-12">
-          {t('lastUpdated')}
+        <p className="text-lg text-muted-foreground mb-12">
+          {t('subtitle')}
         </p>
 
-        <div className="space-y-8">
-          {sections.map((section) => (
-            <section key={section}>
-              <h2 className="text-xl font-semibold text-foreground mb-3">
-                {t(`${section}.title`)}
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                {t(`${section}.text`)}
+        <div className="rounded-2xl border border-border bg-card p-8">
+          <div className="flex items-start gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+              <Mail className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-foreground mb-2">{t('emailTitle')}</h2>
+              <p className="text-muted-foreground mb-4">
+                {t('emailDescription')}
               </p>
-            </section>
-          ))}
+              <a
+                href="mailto:info@shouldi.io"
+                className="text-primary font-medium hover:underline"
+              >
+                info@shouldi.io
+              </a>
+            </div>
+          </div>
         </div>
       </main>
 

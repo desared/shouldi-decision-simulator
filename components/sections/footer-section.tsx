@@ -21,7 +21,8 @@ export function FooterSection() {
     {
       title: t('company.title'),
       links: [
-        { label: t('company.about'), href: `/${locale}/about` }
+        { label: t('company.about'), href: `/${locale}/about` },
+        { label: t('company.contact'), href: `/${locale}/contact` }
       ]
     },
     {

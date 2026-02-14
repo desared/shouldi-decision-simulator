@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { AlertTriangle, CreditCard, Trash2, Palette, Globe } from "lucide-react"
+import { AlertTriangle, CreditCard, Trash2, Palette, Globe, ArrowUpRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import {
@@ -21,10 +21,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { User } from "firebase/auth"
-import { auth } from "@/lib/firebase"
-import { deleteUser } from "firebase/auth"
+import { User, deleteUser } from "firebase/auth"
 import { useRouter } from "next/navigation"
+import { useLocale } from "next-intl"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSwitcher } from "@/components/language-switcher"
 
@@ -38,6 +37,7 @@ interface SettingsDialogProps {
 export function SettingsDialog({ open, onOpenChange, user, userPlan = "free" }: SettingsDialogProps) {
     const t = useTranslations('dashboard')
     const router = useRouter()
+    const locale = useLocale()
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
     const [isPausing, setIsPausing] = useState(false)
@@ -116,6 +116,19 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free" }: 
                                     <p className="text-sm text-muted-foreground mt-1">
                                         {t('settings.currentPlan')}: <span className="font-medium text-foreground">{userPlan === "pro" ? "Pro" : t('settings.freePlan')}</span>
                                     </p>
+                                    {userPlan === "free" && (
+                                        <Button
+                                            size="sm"
+                                            className="mt-3"
+                                            onClick={() => {
+                                                onOpenChange(false)
+                                                router.push(`/${locale}/pricing`)
+                                            }}
+                                        >
+                                            <ArrowUpRight className="mr-2 h-4 w-4" />
+                                            {t('settings.upgradeToPro')}
+                                        </Button>
+                                    )}
                                     {userPlan === "pro" && (
                                         <Button
                                             variant="outline"

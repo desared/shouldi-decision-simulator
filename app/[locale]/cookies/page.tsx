@@ -134,11 +134,6 @@ export default function CookiesPage() {
           <p className="text-muted-foreground leading-relaxed">{t('managing.text')}</p>
         </section>
 
-        {/* Contact */}
-        <section>
-          <h2 className="text-xl font-semibold text-foreground mb-3">{t('contact.title')}</h2>
-          <p className="text-muted-foreground leading-relaxed">{t('contact.text')}</p>
-        </section>
       </main>
 
       <FooterSection />

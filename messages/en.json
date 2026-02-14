@@ -273,6 +273,7 @@
     "company": {
       "title": "Company",
       "about": "About Us",
+      "contact": "Contact Us",
       "blog": "Blog",
       "careers": "Careers",
       "press": "Press"
@@ -436,6 +437,7 @@
       "subscription": "Subscription",
       "currentPlan": "Current plan",
       "freePlan": "Free",
+      "upgradeToPro": "Upgrade to Pro",
       "pauseSubscription": "Pause Subscription",
       "pausing": "Pausing...",
       "pauseSuccess": "Your subscription has been paused.",
@@ -483,6 +485,13 @@
     "builtByTitle": "Built by ActOnData",
     "builtByText": "shouldi is a product of ActOnData, a company focused on building intelligent tools that turn complex data into clear, actionable insights.",
     "visitActOnData": "Visit ActOnData.io"
+  },
+  "contactPage": {
+    "backHome": "Back to home",
+    "title": "Contact Us",
+    "subtitle": "Have a question, feedback, or just want to say hello? We'd love to hear from you.",
+    "emailTitle": "Email Us",
+    "emailDescription": "For any questions, partnerships, or support inquiries, drop us an email and we'll get back to you as soon as possible."
   },
   "helpPage": {
     "backHome": "Back to home",
