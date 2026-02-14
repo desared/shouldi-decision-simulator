@@ -53,6 +53,7 @@ export default function DashboardPage() {
         }
     }, [viewingScenarioId, selectScenario])
 
+
     const handleSearchSubmit = () => {
         const trimmed = searchQuery.trim()
         if (!trimmed) return
@@ -68,6 +69,7 @@ export default function DashboardPage() {
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
+            e.preventDefault()
             handleSearchSubmit()
         }
     }

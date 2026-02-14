@@ -20,7 +20,7 @@
     "subtitle": "Your biggest decisions shouldn't feel like guesswork. Our AI-powered simulator models real outcomes so you can choose with clarity.",
     "inputPlaceholder": "Should I...",
     "simulate": "Simulate",
-    "tryExample": "Ask anything, answer 2 quick questions, and get a free analysis",
+    "tryExample": "Ask anything, answer 3 quick questions, and get a free analysis",
     "freeHint": "Log in to get deeper analysis, save results, and compare scenarios"
   },
   "scenarios": {
@@ -253,7 +253,7 @@
   },
   "cta": {
     "title": "Ready to Make Better Decisions?",
-    "subtitle": "Join over 50,000 people who've gained clarity on their biggest decisions.",
+    "subtitle": "Join the network who've gained clarity on their biggest decisions.",
     "button": "Start Your Free Simulation"
   },
   "moreSimulations": {
@@ -399,6 +399,13 @@
       "inputFactors": "Input Factors",
       "predictedOutcomes": "Predicted Outcomes"
     },
+    "compare": {
+      "title": "Compare Your Decisions",
+      "subtitle": "See how your scenarios stack up against each other",
+      "inputFactors": "Input Factors",
+      "predictedOutcomes": "Predicted Outcomes",
+      "noSimulation": "No simulation data yet"
+    },
     "sidebar": {
       "title": "Scenarios",
       "openMenu": "Open menu",
@@ -527,7 +534,7 @@
       }
     },
     "contactTitle": "Still have questions?",
-    "contactText": "Reach out to us at support@shouldi.app and we'll get back to you as soon as possible."
+    "contactText": "Reach out to us at info@shouldi.io and we'll get back to you as soon as possible."
   },
   "guidesPage": {
     "backHome": "Back to home",
@@ -577,11 +584,11 @@
     },
     "rights": {
       "title": "Your Rights",
-      "text": "You have the right to access, correct, or delete your personal data at any time. You can delete your account and all associated data from the Settings page in your dashboard. If you have questions about your data, contact us at privacy@shouldi.app."
+      "text": "You have the right to access, correct, or delete your personal data at any time. You can delete your account and all associated data from the Settings page in your dashboard. If you have questions about your data, contact us at info@shouldi.io."
     },
     "contact": {
       "title": "Contact Us",
-      "text": "If you have any questions about this Privacy Policy, please contact us at privacy@shouldi.app. shouldi is a product of ActOnData (ActOnData.io)."
+      "text": "If you have any questions about this Privacy Policy, please contact us at info@shouldi.io. shouldi is a product of ActOnData (ActOnData.io)."
     }
   },
   "termsPage": {
@@ -614,7 +621,7 @@
     },
     "contact": {
       "title": "Contact Us",
-      "text": "If you have questions about these Terms of Service, please contact us at legal@shouldi.app. shouldi is a product of ActOnData (ActOnData.io)."
+      "text": "If you have questions about these Terms of Service, please contact us at info@shouldi.io. shouldi is a product of ActOnData (ActOnData.io)."
     }
   },
   "pricingPage": {
@@ -762,7 +769,7 @@
     },
     "contact": {
       "title": "Contact Us",
-      "text": "If you have questions about our use of cookies, please contact us at privacy@shouldi.app. shouldi is a product of ActOnData (ActOnData.io)."
+      "text": "If you have questions about our use of cookies, please contact us at info@shouldi.io. shouldi is a product of ActOnData (ActOnData.io)."
     }
   }
 }

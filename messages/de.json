@@ -20,7 +20,7 @@
     "subtitle": "Ihre wichtigsten Entscheidungen sollten kein Ratespiel sein. Unser KI-Simulator modelliert echte Ergebnisse, damit Sie mit Klarheit wählen können.",
     "inputPlaceholder": "Sollte ich...",
     "simulate": "Simulieren",
-    "tryExample": "Fragen Sie was Sie wollen, beantworten Sie 2 kurze Fragen und erhalten Sie eine kostenlose Analyse",
+    "tryExample": "Fragen Sie was Sie wollen, beantworten Sie 3 kurze Fragen und erhalten Sie eine kostenlose Analyse",
     "freeHint": "Melden Sie sich an für tiefere Analysen, Ergebnisse speichern und Szenarien vergleichen"
   },
   "scenarios": {
@@ -253,7 +253,7 @@
   },
   "cta": {
     "title": "Bereit für bessere Entscheidungen?",
-    "subtitle": "Schließen Sie sich über 50.000 Menschen an, die Klarheit über ihre wichtigsten Entscheidungen gewonnen haben.",
+    "subtitle": "Werden Sie Teil des Netzwerks, das Klarheit über die wichtigsten Entscheidungen gewonnen hat.",
     "button": "Starten Sie Ihre kostenlose Simulation"
   },
   "moreSimulations": {
@@ -399,6 +399,13 @@
       "inputFactors": "Eingabefaktoren",
       "predictedOutcomes": "Vorhergesagte Ergebnisse"
     },
+    "compare": {
+      "title": "Entscheidungen vergleichen",
+      "subtitle": "Sehen Sie, wie Ihre Szenarien im Vergleich abschneiden",
+      "inputFactors": "Eingabefaktoren",
+      "predictedOutcomes": "Vorhergesagte Ergebnisse",
+      "noSimulation": "Noch keine Simulationsdaten"
+    },
     "sidebar": {
       "title": "Szenarien",
       "openMenu": "Menü öffnen",
@@ -527,7 +534,7 @@
       }
     },
     "contactTitle": "Noch Fragen?",
-    "contactText": "Kontaktieren Sie uns unter support@shouldi.app und wir melden uns so schnell wie möglich bei Ihnen."
+    "contactText": "Kontaktieren Sie uns unter info@shouldi.io und wir melden uns so schnell wie möglich bei Ihnen."
   },
   "guidesPage": {
     "backHome": "Zurück zur Startseite",
@@ -577,11 +584,11 @@
     },
     "rights": {
       "title": "Ihre Rechte",
-      "text": "Sie haben jederzeit das Recht, auf Ihre persönlichen Daten zuzugreifen, sie zu korrigieren oder zu löschen. Sie können Ihr Konto und alle zugehörigen Daten über die Einstellungsseite in Ihrem Dashboard löschen. Bei Fragen zu Ihren Daten kontaktieren Sie uns unter privacy@shouldi.app."
+      "text": "Sie haben jederzeit das Recht, auf Ihre persönlichen Daten zuzugreifen, sie zu korrigieren oder zu löschen. Sie können Ihr Konto und alle zugehörigen Daten über die Einstellungsseite in Ihrem Dashboard löschen. Bei Fragen zu Ihren Daten kontaktieren Sie uns unter info@shouldi.io."
     },
     "contact": {
       "title": "Kontakt",
-      "text": "Wenn Sie Fragen zu dieser Datenschutzerklärung haben, kontaktieren Sie uns bitte unter privacy@shouldi.app. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
+      "text": "Wenn Sie Fragen zu dieser Datenschutzerklärung haben, kontaktieren Sie uns bitte unter info@shouldi.io. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
     }
   },
   "termsPage": {
@@ -614,7 +621,7 @@
     },
     "contact": {
       "title": "Kontakt",
-      "text": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, kontaktieren Sie uns bitte unter legal@shouldi.app. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
+      "text": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, kontaktieren Sie uns bitte unter info@shouldi.io. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
     }
   },
   "pricingPage": {
@@ -762,7 +769,7 @@
     },
     "contact": {
       "title": "Kontakt",
-      "text": "Wenn Sie Fragen zu unserer Verwendung von Cookies haben, kontaktieren Sie uns bitte unter privacy@shouldi.app. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
+      "text": "Wenn Sie Fragen zu unserer Verwendung von Cookies haben, kontaktieren Sie uns bitte unter info@shouldi.io. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
     }
   }
 }
