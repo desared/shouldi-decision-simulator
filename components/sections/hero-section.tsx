@@ -15,6 +15,7 @@ import {
 import { SkillIcon } from '@/lib/skills/skill-icon'
 import { getAllSkills, getSkill } from '@/lib/skills/registry'
 import { detectSkill } from '@/lib/skills/detector'
+import { moderateContent } from '@/lib/moderation'
 import type { SkillId, SupportedLocale } from '@/lib/skills/types'
 
 interface HeroSectionProps {
@@ -53,6 +54,7 @@ export function HeroSection({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [mismatchOpen, setMismatchOpen] = useState(false)
   const [mismatchData, setMismatchData] = useState<{ question: string; detectedSkillId: SkillId } | null>(null)
+  const [moderationOpen, setModerationOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const rotatingQuestions = locale === 'de' ? rotatingQuestionsDe : rotatingQuestionsEn
@@ -83,10 +85,19 @@ export function HeroSection({
     return `Should I ${input}?`
   }
 
+  const tModeration = useTranslations('moderation')
+
   const handleSimulateClick = () => {
     const trimmed = customQuestion.trim()
     if (!trimmed) return
     const question = buildQuestion(trimmed)
+
+    // Content moderation check
+    const modResult = moderateContent(question)
+    if (modResult.blocked) {
+      setModerationOpen(true)
+      return
+    }
 
     // If auto-detect or no specific advisor, proceed directly
     if (selectedSkill === "auto") {
@@ -320,6 +331,26 @@ export function HeroSection({
             </Button>
             <Button onClick={handleMismatchContinue} variant="ghost" className="w-full text-muted-foreground">
               {t('continueAnyway')}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Content Moderation Warning */}
+      <AlertDialog open={moderationOpen} onOpenChange={setModerationOpen}>
+        <AlertDialogContent className="sm:max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+              {tModeration('title')}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {tModeration('description')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <Button onClick={() => setModerationOpen(false)} variant="outline">
+              {tModeration('close')}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

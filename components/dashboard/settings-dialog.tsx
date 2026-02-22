@@ -88,8 +88,8 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free" }: 
                             <p className="text-sm text-muted-foreground">{user?.email}</p>
                         </div>
 
-                        {/* Preferences */}
-                        <div className="rounded-lg border border-border p-4 space-y-3">
+                        {/* Preferences — only shown on mobile (desktop has these in the header) */}
+                        <div className="md:hidden rounded-lg border border-border p-4 space-y-3">
                             <h4 className="text-sm font-medium text-foreground">{t('settings.preferences')}</h4>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">

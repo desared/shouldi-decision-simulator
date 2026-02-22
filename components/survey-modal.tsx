@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useTranslations, useLocale } from 'next-intl'
-import { Loader2, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react'
+import { Loader2, ChevronRight, ChevronLeft, Sparkles, AlertTriangle } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -10,9 +10,18 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { ConfidenceChart } from "@/components/ui/confidence-chart"
 import { cn } from "@/lib/utils"
+import { moderateContent } from "@/lib/moderation"
 import { generateSurveyQuestionsAction, generateOutcomesAction } from "@/app/actions/gemini"
 import {
   type SurveyQuestion,
@@ -33,7 +42,7 @@ interface SurveyModalProps {
   onSignUp?: () => void
 }
 
-type SurveyStep = "loading" | "questions" | "generating" | "results"
+type SurveyStep = "loading" | "questions" | "freetext" | "generating" | "results"
 
 export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, bestCaseOnly = false, forcedSkillId, onSignUp }: SurveyModalProps) {
   const t = useTranslations('survey')
@@ -44,6 +53,8 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
   const [answers, setAnswers] = useState<Record<string, { question: string; answer: string }>>({})
   const [outcomes, setOutcomes] = useState<GeminiOutcomeResponse | null>(null)
   const [detectedSkillId, setDetectedSkillId] = useState<SkillId>("generic")
+  const [freetextValue, setFreetextValue] = useState("")
+  const [moderationOpen, setModerationOpen] = useState(false)
 
   useEffect(() => {
     if (isOpen && userQuestion) {
@@ -60,6 +71,8 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
       setAnswers({})
       setOutcomes(null)
       setDetectedSkillId("generic")
+      setFreetextValue("")
+      setModerationOpen(false)
     }
   }, [isOpen])
 
@@ -86,20 +99,39 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
     }))
   }
 
-  const handleNext = async () => {
+  const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(prev => prev + 1)
     } else {
-      // All questions answered, generate outcomes
-      setStep("generating")
-      try {
-        const response = await generateOutcomesAction(userQuestion, answers, bestCaseOnly, locale, detectedSkillId !== "generic" ? detectedSkillId : undefined)
-        setOutcomes(response)
-        setStep("results")
-      } catch (error) {
-        console.error("Failed to generate outcomes:", error)
-        setStep("results")
+      setStep("freetext")
+    }
+  }
+
+  const handleFreetextSubmit = async (skip: boolean) => {
+    if (!skip && freetextValue.trim()) {
+      const modResult = moderateContent(freetextValue)
+      if (modResult.blocked) {
+        setModerationOpen(true)
+        return
       }
+    }
+
+    const finalAnswers = { ...answers }
+    if (!skip && freetextValue.trim()) {
+      finalAnswers["freetext"] = {
+        question: t('freetextQuestion'),
+        answer: freetextValue.trim()
+      }
+    }
+
+    setStep("generating")
+    try {
+      const response = await generateOutcomesAction(userQuestion, finalAnswers, bestCaseOnly, locale, detectedSkillId !== "generic" ? detectedSkillId : undefined)
+      setOutcomes(response)
+      setStep("results")
+    } catch (error) {
+      console.error("Failed to generate outcomes:", error)
+      setStep("results")
     }
   }
 
@@ -113,7 +145,15 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
   const isAnswered = currentQ && answers[currentQ.id]
   const progress = questions.length > 0 ? ((currentQuestion + 1) / questions.length) * 100 : 0
 
+  const tModeration = useTranslations('moderation')
+
+  const handleModerationClose = () => {
+    setModerationOpen(false)
+    onClose()
+  }
+
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
@@ -130,6 +170,9 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
           <DialogDescription className="text-muted-foreground">
             {step === "loading" && t('loading')}
             {step === "questions" && (
+              <span className="font-medium text-foreground">&quot;{userQuestion}&quot;</span>
+            )}
+            {step === "freetext" && (
               <span className="font-medium text-foreground">&quot;{userQuestion}&quot;</span>
             )}
             {step === "generating" && t('generating')}
@@ -212,6 +255,45 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
           </div>
         )}
 
+        {/* Freetext Step */}
+        {step === "freetext" && (
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-foreground">
+                {t('freetextTitle')}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {t('freetextDescription')}
+              </p>
+              <textarea
+                value={freetextValue}
+                onChange={(e) => setFreetextValue(e.target.value)}
+                placeholder={t('freetextPlaceholder')}
+                rows={4}
+                className="w-full rounded-lg border-2 border-border bg-background p-4 text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors resize-none"
+              />
+            </div>
+
+            <div className="flex justify-between pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setStep("questions")}
+                className="gap-2"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                {t('back')}
+              </Button>
+              <Button
+                onClick={() => handleFreetextSubmit(false)}
+                className="gap-2"
+              >
+                {t('seeResults')}
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Generating State */}
         {step === "generating" && (
           <div className="flex flex-col items-center justify-center py-12">
@@ -283,5 +365,25 @@ export function SurveyModal({ isOpen, onClose, userQuestion, questionCount = 4, 
         )}
       </DialogContent>
     </Dialog>
+
+    <AlertDialog open={moderationOpen} onOpenChange={setModerationOpen}>
+      <AlertDialogContent className="sm:max-w-md">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-destructive" />
+            {tModeration('title')}
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            {tModeration('surveyDescription')}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <Button onClick={handleModerationClose} variant="outline">
+            {tModeration('close')}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   )
 }

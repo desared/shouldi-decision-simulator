@@ -403,6 +403,11 @@
     "possibleOutcomes": "Possible Outcomes",
     "recommendation": "Recommendation",
     "confidenceChart": "Confidence Overview",
+    "freetextTitle": "Anything else?",
+    "freetextDescription": "Is there anything important we didn't cover? Add any details that might help refine your analysis.",
+    "freetextPlaceholder": "Type any additional context here... (optional)",
+    "freetextSkip": "Skip",
+    "freetextQuestion": "Additional details provided by user",
     "done": "Got it, thanks!",
     "signUpDeeper": "Sign up to get deeper analysis",
     "saving": "Saving your analysis...",
@@ -889,5 +894,11 @@
       "title": "Contact Us",
       "text": "If you have questions about our use of cookies, please contact us at info@shouldi.io. shouldi is a product of ActOnData (ActOnData.io)."
     }
+  },
+  "moderation": {
+    "title": "Content Policy Violation",
+    "description": "Your input contains content that violates our usage policy. shouldi is designed to help with constructive life decisions. Please rephrase your question appropriately.",
+    "surveyDescription": "Your input contains content that violates our usage policy. This analysis session has been closed.",
+    "close": "I understand"
   }
 }

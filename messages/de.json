@@ -403,6 +403,11 @@
     "possibleOutcomes": "Mögliche Ergebnisse",
     "recommendation": "Empfehlung",
     "confidenceChart": "Konfidenzübersicht",
+    "freetextTitle": "Noch etwas?",
+    "freetextDescription": "Gibt es etwas Wichtiges, das wir nicht abgedeckt haben? Fügen Sie Details hinzu, die Ihre Analyse verfeinern könnten.",
+    "freetextPlaceholder": "Geben Sie hier zusätzlichen Kontext ein... (optional)",
+    "freetextSkip": "Überspringen",
+    "freetextQuestion": "Vom Benutzer bereitgestellte zusätzliche Details",
     "done": "Verstanden, danke!",
     "signUpDeeper": "Registrieren für tiefere Analyse",
     "saving": "Ihre Analyse wird gespeichert...",
@@ -889,5 +894,11 @@
       "title": "Kontakt",
       "text": "Wenn Sie Fragen zu unserer Verwendung von Cookies haben, kontaktieren Sie uns bitte unter info@shouldi.io. shouldi ist ein Produkt von ActOnData (ActOnData.io)."
     }
+  },
+  "moderation": {
+    "title": "Verstoß gegen die Inhaltsrichtlinie",
+    "description": "Ihre Eingabe enthält Inhalte, die gegen unsere Nutzungsrichtlinien verstoßen. shouldi ist dafür konzipiert, bei konstruktiven Lebensentscheidungen zu helfen. Bitte formulieren Sie Ihre Frage angemessen um.",
+    "surveyDescription": "Ihre Eingabe enthält Inhalte, die gegen unsere Nutzungsrichtlinien verstoßen. Diese Analysesitzung wurde geschlossen.",
+    "close": "Verstanden"
   }
 }

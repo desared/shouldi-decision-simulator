@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useTranslations, useLocale } from 'next-intl'
-import { Loader2, ChevronRight, ChevronLeft, Sparkles, CheckCircle, Lock } from 'lucide-react'
+import { Loader2, ChevronRight, ChevronLeft, Sparkles, CheckCircle, Lock, AlertTriangle } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -10,9 +10,18 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { ConfidenceChart } from "@/components/ui/confidence-chart"
 import { cn } from "@/lib/utils"
+import { moderateContent } from "@/lib/moderation"
 import { generateSurveyQuestionsAction, generateOutcomesAction } from "@/app/actions/gemini"
 import { type SurveyQuestion, type SurveyOutcome, type GeminiOutcomeResponse } from "@/lib/gemini-service"
 import { useFirestore } from "@/contexts/firestore-context"
@@ -30,10 +39,11 @@ interface DashboardSurveyModalProps {
   onSave?: (questions: string[], answers: Record<string, string>, outcomes: SurveyOutcome[]) => Promise<void>
 }
 
-type SurveyStep = "loading" | "questions" | "generating" | "saving" | "results"
+type SurveyStep = "loading" | "questions" | "freetext" | "generating" | "saving" | "results"
 
 export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkillId }: DashboardSurveyModalProps) {
   const t = useTranslations('survey')
+  const tModeration = useTranslations('moderation')
   const locale = useLocale()
   const [step, setStep] = useState<SurveyStep>("loading")
   const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false)
@@ -42,6 +52,8 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
   const [answers, setAnswers] = useState<Record<string, { question: string; answer: string }>>({})
   const [outcomes, setOutcomes] = useState<GeminiOutcomeResponse | null>(null)
   const [detectedSkillId, setDetectedSkillId] = useState<SkillId>("generic")
+  const [freetextValue, setFreetextValue] = useState("")
+  const [moderationOpen, setModerationOpen] = useState(false)
 
   const { createScenario, createSimulation, selectScenario, canCreateScenario } = useFirestore()
   const canSave = canCreateScenario()
@@ -60,6 +72,8 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
       setAnswers({})
       setOutcomes(null)
       setDetectedSkillId("generic")
+      setFreetextValue("")
+      setModerationOpen(false)
     }
   }, [isOpen])
 
@@ -97,41 +111,57 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
     }))
   }
 
-  const handleNext = async () => {
+  const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(prev => prev + 1)
     } else {
-      // All questions answered - generate outcomes and auto-save
-      setStep("generating")
-      try {
-        // Prepare answers with full question context for the action
-        const minimalAnswers: Record<string, { question: string; answer: string }> = {}
-        questions.forEach(q => {
-          minimalAnswers[q.id] = answers[q.id] || { question: q.question, answer: "Unknown" } // Ensure all questions have an answer, even if empty
-        })
-
-        // Use Server Action
-        const data = await generateOutcomesAction(userQuestion, minimalAnswers, false, locale, detectedSkillId !== "generic" ? detectedSkillId : undefined)
-        setOutcomes(data)
-
-        // Auto-save scenario and simulation if user can save
-        if (canSave) {
-          setStep("saving")
-          // The `onSave` prop was added, but the original code directly calls `saveScenarioAndSimulation`.
-          // I will keep the original `saveScenarioAndSimulation` call for now, as `onSave` is not used in the provided snippet.
-          // If the user intended to replace `saveScenarioAndSimulation` with `onSave`, that would be a separate instruction.
-          await saveScenarioAndSimulation(data)
-        }
-
-        setStep("results")
-      } catch (error) {
-        console.error("Failed to generate outcomes:", error)
-        setStep("results")
-      }
+      setStep("freetext")
     }
   }
 
-  const saveScenarioAndSimulation = async (outcomeData: GeminiOutcomeResponse) => {
+  const handleFreetextSubmit = async (skip: boolean) => {
+    if (!skip && freetextValue.trim()) {
+      const modResult = moderateContent(freetextValue)
+      if (modResult.blocked) {
+        setModerationOpen(true)
+        return
+      }
+    }
+
+    // Build final answers including freetext if provided
+    const finalAnswers: Record<string, { question: string; answer: string }> = {}
+    questions.forEach(q => {
+      finalAnswers[q.id] = answers[q.id] || { question: q.question, answer: "Unknown" }
+    })
+    if (!skip && freetextValue.trim()) {
+      finalAnswers["freetext"] = {
+        question: t('freetextQuestion'),
+        answer: freetextValue.trim()
+      }
+    }
+
+    // Update answers state so saveScenarioAndSimulation uses all answers
+    setAnswers(finalAnswers)
+
+    setStep("generating")
+    try {
+      const data = await generateOutcomesAction(userQuestion, finalAnswers, false, locale, detectedSkillId !== "generic" ? detectedSkillId : undefined)
+      setOutcomes(data)
+
+      if (canSave) {
+        setStep("saving")
+        await saveScenarioAndSimulation(data, finalAnswers)
+      }
+
+      setStep("results")
+    } catch (error) {
+      console.error("Failed to generate outcomes:", error)
+      setStep("results")
+    }
+  }
+
+  const saveScenarioAndSimulation = async (outcomeData: GeminiOutcomeResponse, answersToSave?: Record<string, { question: string; answer: string }>) => {
+    const effectiveAnswers = answersToSave || answers
     try {
       // Create scenario title from question
       const title = userQuestion.replace(/^should i\s*/i, '').replace(/\?$/, '')
@@ -166,7 +196,7 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
       }))
 
       // Convert answers to factors format
-      const simulationFactors = Object.entries(answers).map(([id, { question, answer }], index) => {
+      const simulationFactors = Object.entries(effectiveAnswers).map(([id, { question, answer }], index) => {
         // Map answer sentiment to value
         let value = 50
         const lowerAnswer = answer.toLowerCase()
@@ -231,6 +261,11 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
     }
   }
 
+  const handleModerationClose = () => {
+    setModerationOpen(false)
+    onClose()
+  }
+
   const currentQ = questions[currentQuestion]
   const isAnswered = currentQ && answers[currentQ.id]
   const progress = questions.length > 0 ? ((currentQuestion + 1) / questions.length) * 100 : 0
@@ -253,6 +288,9 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
           <DialogDescription className="text-muted-foreground">
             {step === "loading" && t('loading')}
             {step === "questions" && (
+              <span className="font-medium text-foreground">&quot;{userQuestion}&quot;</span>
+            )}
+            {step === "freetext" && (
               <span className="font-medium text-foreground">&quot;{userQuestion}&quot;</span>
             )}
             {step === "generating" && t('generating')}
@@ -343,6 +381,45 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
                 </span>
               </button>
             )}
+          </div>
+        )}
+
+        {/* Freetext Step */}
+        {step === "freetext" && (
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-foreground">
+                {t('freetextTitle')}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {t('freetextDescription')}
+              </p>
+              <textarea
+                value={freetextValue}
+                onChange={(e) => setFreetextValue(e.target.value)}
+                placeholder={t('freetextPlaceholder')}
+                rows={4}
+                className="w-full rounded-lg border-2 border-border bg-background p-4 text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors resize-none"
+              />
+            </div>
+
+            <div className="flex justify-between pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setStep("questions")}
+                className="gap-2"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                {t('back')}
+              </Button>
+              <Button
+                onClick={() => handleFreetextSubmit(false)}
+                className="gap-2"
+              >
+                {t('seeResults')}
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         )}
 
@@ -443,6 +520,25 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
     </Dialog>
 
     <UpgradeDialog open={upgradeDialogOpen} onOpenChange={setUpgradeDialogOpen} />
+
+    <AlertDialog open={moderationOpen} onOpenChange={setModerationOpen}>
+      <AlertDialogContent className="sm:max-w-md">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-destructive" />
+            {tModeration('title')}
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            {tModeration('surveyDescription')}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <Button onClick={handleModerationClose} variant="outline">
+            {tModeration('close')}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
     </>
   )
 }

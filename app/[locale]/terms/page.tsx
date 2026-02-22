@@ -4,9 +4,7 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-import { LogoIcon } from '@/components/logo-icon'
-import { ThemeToggle } from '@/components/theme-toggle'
-import { LanguageSwitcher } from '@/components/language-switcher'
+import { PageHeader } from '@/components/page-header'
 import { FooterSection } from '@/components/sections/footer-section'
 
 export default function TermsPage() {
@@ -18,21 +16,7 @@ export default function TermsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
-          <Link href={`/${locale}`} className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary">
-              <LogoIcon className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-foreground">should<span className="text-primary">i</span></span>
-          </Link>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <LanguageSwitcher />
-          </div>
-        </div>
-      </header>
+      <PageHeader />
 
       {/* Content */}
       <main className="mx-auto max-w-3xl px-4 py-16 md:py-24">
