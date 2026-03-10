@@ -258,7 +258,7 @@
     },
     "perScenario": {
       "title": "Pro Szenario",
-      "price": "€3,99",
+      "price": "€2,99",
       "period": "pro Simulation",
       "description": "Tiefere Analyse für zusätzliche Szenarien",
       "features": [
@@ -766,7 +766,7 @@
     },
     "perScenario": {
       "title": "Pro Szenario",
-      "price": "\u20ac3,99",
+      "price": "\u20ac2,99",
       "period": "pro Simulation",
       "description": "Brauchen Sie mehr als zwei Szenarien? Schalten Sie zusätzliche Simulationen einzeln frei mit tieferer 10-Fragen-Analyse für genauere Ergebnisse.",
       "features": [

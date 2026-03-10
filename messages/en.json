@@ -258,7 +258,7 @@
     },
     "perScenario": {
       "title": "Pay Per Scenario",
-      "price": "€3.99",
+      "price": "€2.99",
       "period": "per simulation",
       "description": "Deeper analysis for additional scenarios",
       "features": [
@@ -766,7 +766,7 @@
     },
     "perScenario": {
       "title": "Pay Per Scenario",
-      "price": "\u20ac3.99",
+      "price": "\u20ac2.99",
       "period": "per simulation",
       "description": "Need more than two scenarios? Unlock additional simulations one at a time with deeper, 10-question analysis for more accurate results.",
       "features": [
