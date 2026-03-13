@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { AlertTriangle, CreditCard, Trash2, Palette, Globe, ArrowUpRight } from "lucide-react"
+import { UpgradeDialog } from "@/components/dashboard/upgrade-dialog"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import {
@@ -23,7 +24,6 @@ import {
 } from "@/components/ui/alert-dialog"
 import { User, deleteUser } from "firebase/auth"
 import { useRouter } from "next/navigation"
-import { useLocale } from "next-intl"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSwitcher } from "@/components/language-switcher"
 
@@ -37,8 +37,8 @@ interface SettingsDialogProps {
 export function SettingsDialog({ open, onOpenChange, user, userPlan = "free" }: SettingsDialogProps) {
     const t = useTranslations('dashboard')
     const router = useRouter()
-    const locale = useLocale()
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+    const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
     const [isPausing, setIsPausing] = useState(false)
 
@@ -122,7 +122,7 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free" }: 
                                             className="mt-3"
                                             onClick={() => {
                                                 onOpenChange(false)
-                                                router.push(`/${locale}/pricing`)
+                                                setUpgradeDialogOpen(true)
                                             }}
                                         >
                                             <ArrowUpRight className="mr-2 h-4 w-4" />
@@ -189,6 +189,8 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free" }: 
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+
+            <UpgradeDialog open={upgradeDialogOpen} onOpenChange={setUpgradeDialogOpen} />
         </>
     )
 }
