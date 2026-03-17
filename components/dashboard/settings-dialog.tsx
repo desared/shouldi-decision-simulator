@@ -26,6 +26,7 @@ import { User, deleteUser } from "firebase/auth"
 import { useRouter } from "next/navigation"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSwitcher } from "@/components/language-switcher"
+import { cancelSubscriptionAction } from "@/app/actions/stripe"
 
 interface SettingsDialogProps {
     open: boolean
@@ -33,19 +34,47 @@ interface SettingsDialogProps {
     user: User | null
     userPlan?: "free" | "pro"
     paidScenarioCredits?: number
+    cancelAtPeriodEnd?: boolean
+    currentPeriodEnd?: number
+    onSubscriptionChange?: () => Promise<void>
 }
 
-export function SettingsDialog({ open, onOpenChange, user, userPlan = "free", paidScenarioCredits = 0 }: SettingsDialogProps) {
+export function SettingsDialog({
+    open,
+    onOpenChange,
+    user,
+    userPlan = "free",
+    paidScenarioCredits = 0,
+    cancelAtPeriodEnd = false,
+    currentPeriodEnd,
+    onSubscriptionChange,
+}: SettingsDialogProps) {
     const t = useTranslations('dashboard')
     const router = useRouter()
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+    const [cancelDialogOpen, setCancelDialogOpen] = useState(false)
     const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
+    const [isCanceling, setIsCanceling] = useState(false)
+    const [cancelError, setCancelError] = useState<string | null>(null)
 
-    const handleManageSubscription = () => {
-        // Opens Stripe's customer portal or billing page
-        // In test mode, direct users to the Stripe test dashboard
-        window.open("https://billing.stripe.com/p/login/test", "_blank")
+    const handleCancelSubscription = async () => {
+        if (!user) return
+        setIsCanceling(true)
+        setCancelError(null)
+        try {
+            const result = await cancelSubscriptionAction(user.uid)
+            if (result.error) {
+                setCancelError(result.error)
+            } else {
+                setCancelDialogOpen(false)
+                if (onSubscriptionChange) await onSubscriptionChange()
+            }
+        } catch {
+            setCancelError(t('settings.cancelError'))
+        } finally {
+            setIsCanceling(false)
+        }
     }
 
     const handleDeleteAccount = async () => {
@@ -57,7 +86,6 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free", pa
             router.push('/')
         } catch (error: unknown) {
             console.error("Error deleting account:", error)
-            // If requires recent login, show message
             if (error && typeof error === 'object' && 'code' in error && error.code === 'auth/requires-recent-login') {
                 alert(t('settings.reAuthRequired'))
             } else {
@@ -67,6 +95,14 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free", pa
             setIsDeleting(false)
             setDeleteDialogOpen(false)
         }
+    }
+
+    const formatPeriodEnd = (timestamp: number) => {
+        return new Date(timestamp * 1000).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        })
     }
 
     return (
@@ -119,6 +155,14 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free", pa
                                             {t('settings.scenarioCredits')}: <span className="font-medium text-foreground">{paidScenarioCredits}</span>
                                         </p>
                                     )}
+                                    {/* Cancellation pending notice */}
+                                    {userPlan === "pro" && cancelAtPeriodEnd && currentPeriodEnd && (
+                                        <div className="mt-2 rounded-md bg-yellow-500/10 border border-yellow-500/30 px-3 py-2">
+                                            <p className="text-sm text-yellow-600 dark:text-yellow-400">
+                                                {t('settings.cancelsOn', { date: formatPeriodEnd(currentPeriodEnd) })}
+                                            </p>
+                                        </div>
+                                    )}
                                     {userPlan === "free" && (
                                         <Button
                                             size="sm"
@@ -132,14 +176,14 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free", pa
                                             {t('settings.upgradeToPro')}
                                         </Button>
                                     )}
-                                    {userPlan === "pro" && (
+                                    {userPlan === "pro" && !cancelAtPeriodEnd && (
                                         <Button
                                             variant="outline"
                                             size="sm"
                                             className="mt-3"
-                                            onClick={handleManageSubscription}
+                                            onClick={() => setCancelDialogOpen(true)}
                                         >
-                                            {t('settings.manageSubscription')}
+                                            {t('settings.cancelSubscription')}
                                         </Button>
                                     )}
                                 </div>
@@ -171,6 +215,32 @@ export function SettingsDialog({ open, onOpenChange, user, userPlan = "free", pa
                 </DialogContent>
             </Dialog>
 
+            {/* Cancel Subscription Confirmation */}
+            <AlertDialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>{t('settings.cancelConfirmTitle')}</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            {t('settings.cancelConfirmDescription')}
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    {cancelError && (
+                        <p className="text-sm text-destructive">{cancelError}</p>
+                    )}
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>{t('settings.keepSubscription')}</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={handleCancelSubscription}
+                            disabled={isCanceling}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                            {isCanceling ? t('settings.canceling') : t('settings.confirmCancel')}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+            {/* Delete Account Confirmation */}
             <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>

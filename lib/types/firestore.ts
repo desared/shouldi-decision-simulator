@@ -18,6 +18,8 @@ export interface UserProfile {
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;
   subscriptionStatus?: SubscriptionStatus;
+  cancelAtPeriodEnd?: boolean;
+  currentPeriodEnd?: number; // Unix timestamp from Stripe
 }
 
 // Factor Interface (input variables for simulation)

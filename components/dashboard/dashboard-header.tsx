@@ -29,7 +29,7 @@ interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({ user }: DashboardHeaderProps) {
-    const { userPlan, paidScenarioCredits } = useFirestore()
+    const { userPlan, paidScenarioCredits, userProfile, refreshUserProfile } = useFirestore()
     const t = useTranslations('dashboard')
     const [settingsOpen, setSettingsOpen] = useState(false)
     const router = useRouter()
@@ -103,7 +103,16 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                     </div>
                 </div>
             </header>
-            <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} user={user} userPlan={userPlan} paidScenarioCredits={paidScenarioCredits} />
+            <SettingsDialog
+                open={settingsOpen}
+                onOpenChange={setSettingsOpen}
+                user={user}
+                userPlan={userPlan}
+                paidScenarioCredits={paidScenarioCredits}
+                cancelAtPeriodEnd={userProfile?.cancelAtPeriodEnd}
+                currentPeriodEnd={userProfile?.currentPeriodEnd}
+                onSubscriptionChange={refreshUserProfile}
+            />
         </>
     )
 }

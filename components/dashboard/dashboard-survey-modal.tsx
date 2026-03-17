@@ -55,8 +55,10 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
   const [freetextValue, setFreetextValue] = useState("")
   const [moderationOpen, setModerationOpen] = useState(false)
 
-  const { createScenario, createSimulation, selectScenario, canCreateScenario } = useFirestore()
+  const { createScenario, createSimulation, selectScenario, canCreateScenario, userPlan, paidScenarioCredits } = useFirestore()
   const canSave = canCreateScenario()
+  const isPaid = userPlan === "pro" || paidScenarioCredits > 0
+  const questionCount = isPaid ? 10 : 5
 
   useEffect(() => {
     if (isOpen && userQuestion) {
@@ -85,7 +87,7 @@ export function DashboardSurveyModal({ isOpen, onClose, userQuestion, forcedSkil
       setDetectedSkillId(skillId)
 
       // Use Server Action
-      const data = await generateSurveyQuestionsAction(userQuestion, 5, locale, skillId)
+      const data = await generateSurveyQuestionsAction(userQuestion, questionCount, locale, skillId)
       setQuestions(data.questions)
 
       // Initialize current answers (this part was in the user's snippet, but the original code handles answers differently)
