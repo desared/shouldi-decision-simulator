@@ -113,7 +113,7 @@ const organizationSchema = {
   logo: `${BASE_URL}/icon.svg`,
   contactPoint: {
     '@type': 'ContactPoint',
-    email: 'info@shouldi.io',
+    email: 'info@actondata.io',
     contactType: 'customer support',
   },
 }

@@ -41,10 +41,10 @@ export default function ContactPage() {
                 {t('emailDescription')}
               </p>
               <a
-                href="mailto:info@shouldi.io"
+                href="mailto:info@actondata.io"
                 className="text-primary font-medium hover:underline"
               >
-                info@shouldi.io
+                info@actondata.io
               </a>
             </div>
           </div>

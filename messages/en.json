@@ -671,7 +671,7 @@
       }
     },
     "contactTitle": "Still have questions?",
-    "contactText": "Reach out to us at info@shouldi.io and we'll get back to you as soon as possible."
+    "contactText": "Reach out to us at info@actondata.io and we'll get back to you as soon as possible."
   },
   "guidesPage": {
     "backHome": "Back to home",
@@ -721,11 +721,11 @@
     },
     "rights": {
       "title": "Your Rights",
-      "text": "You have the right to access, correct, or delete your personal data at any time. You can delete your account and all associated data from the Settings page in your dashboard. If you have questions about your data, contact us at info@shouldi.io."
+      "text": "You have the right to access, correct, or delete your personal data at any time. You can delete your account and all associated data from the Settings page in your dashboard. If you have questions about your data, contact us at info@actondata.io."
     },
     "contact": {
       "title": "Contact Us",
-      "text": "If you have any questions about this Privacy Policy, please contact us at info@shouldi.io. shouldi is a product of ActOnData (ActOnData.io)."
+      "text": "If you have any questions about this Privacy Policy, please contact us at info@actondata.io. shouldi is a product of ActOnData (ActOnData.io)."
     }
   },
   "termsPage": {
@@ -758,7 +758,7 @@
     },
     "contact": {
       "title": "Contact Us",
-      "text": "If you have questions about these Terms of Service, please contact us at info@shouldi.io. shouldi is a product of ActOnData (ActOnData.io)."
+      "text": "If you have questions about these Terms of Service, please contact us at info@actondata.io. shouldi is a product of ActOnData (ActOnData.io)."
     }
   },
   "pricingPage": {
@@ -906,7 +906,7 @@
     },
     "contact": {
       "title": "Contact Us",
-      "text": "If you have questions about our use of cookies, please contact us at info@shouldi.io. shouldi is a product of ActOnData (ActOnData.io)."
+      "text": "If you have questions about our use of cookies, please contact us at info@actondata.io. shouldi is a product of ActOnData (ActOnData.io)."
     }
   },
   "moderation": {
