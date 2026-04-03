@@ -11,20 +11,21 @@ Whether you're considering a career change, a financial investment, a move to a 
 
 ### Key Features
 
-- **AI-Powered Simulations** — Get detailed outcome analysis with confidence intervals for any decision
-- **Domain-Specific Advisors** — Expert AI advisors for finance, career, health, relationships, education, real estate, lifestyle, and business
-- **Multi-Scenario Analysis** — See best-case, moderate, and risk scenarios side by side
-- **Interactive Survey** — Guided questionnaire that tailors the analysis to your specific situation
+- **AI-Powered Simulations** — Domain-aware Gemini prompts generate tailored survey questions and outcome analysis
+- **Monte Carlo Engine** — Client-side probability distribution (1000 iterations) with p5/p95 confidence bands and risk scoring
+- **Domain-Specific Skills** — 8 AI advisor personas (finance, career, health, relationships, education, real estate, lifestyle, business) with automatic detection from the user's question
+- **Multi-Scenario Analysis** — Best-case, moderate, and risk scenarios with interactive histogram visualization
+- **Crisis Detection** — Self-harm phrase detection (EN+DE, leetspeak-normalized) that redirects to crisis resources before any other moderation
 - **Multilingual** — Full support for English and German
-- **Content Moderation** — Built-in 3-tier moderation system to ensure safe and appropriate use
 - **Dark/Light Mode** — Full theme support
 
 ## Tech Stack
 
-- **Framework:** Next.js 16 (App Router, SSR)
-- **AI:** Google Gemini (gemini-2.0-flash-lite)
-- **Auth & Database:** Firebase (Auth + Firestore)
-- **Styling:** TailwindCSS + shadcn/ui
+- **Framework:** Next.js 16 (App Router, SSR + server actions)
+- **AI:** Google Gemini (`gemini-2.0-flash-lite`) via server actions in `app/actions/gemini.ts`
+- **Simulation:** Client-side Monte Carlo engine (`lib/monte-carlo.ts`) with Gaussian sampling
+- **Auth & Database:** Firebase Auth (Email/Password + Google OAuth) + Firestore
+- **Styling:** TailwindCSS v4 + shadcn/ui (OKLCH color variables)
 - **i18n:** next-intl (EN/DE)
 - **Deployment:** Vercel
 - **Package Manager:** pnpm
