@@ -51,7 +51,7 @@ Create a `.env.local` file with your Firebase configuration:
 NEXT_PUBLIC_FIREBASE_API_KEY=<your-make-webhook-url>
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=<your-firebase-auth-domain>
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=<your-firebase-project-id>
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=<your-firebase-storage=bucket>
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=<your-firebase-storage-bucket>
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=<your-firebase-messaging-sender-id>
 NEXT_PUBLIC_FIREBASE_APP_ID=<your-firebase-app-id>
 GEMINI_API_KEY=<your-gemini-api-key>
