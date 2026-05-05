@@ -95,11 +95,31 @@ Flow: user types question → moderation check → skill detection → `generate
 
 PDF export uses `jspdf` and is triggered from `components/dashboard/simulation-results.tsx`.
 
+### Authentication Pattern
+
+Firebase Auth is client-side only — no Next.js middleware. `onAuthStateChanged()` is consumed in layouts; `contexts/firestore-context.tsx` exposes auth state and all Firestore CRUD operations. There are no server-side session cookies or protected API routes.
+
+### SEO & Metadata
+
+`lib/seo.ts` provides `generatePageMetadata()` and `buildBreadcrumbSchema()`. Pages use these helpers to produce Open Graph tags and JSON-LD structured data injected via `components/json-ld.tsx`.
+
+### Analytics & Cookie Consent
+
+Vercel Analytics and SpeedInsights are conditionally activated based on cookie preferences managed by `components/cookie-consent.tsx` (localStorage-persisted context). The `/[locale]/cookies` page exposes preference controls.
+
+### No Test Infrastructure
+
+There are no test files, Jest/Vitest/Playwright configs, or test commands. `pnpm lint` is the only automated quality check.
+
+### No API Routes
+
+All backend logic uses Next.js server actions (`app/actions/`). There are no `route.ts` files or `/api/*` endpoints.
+
 ### Important Patterns
 
 - **Translations:** `useTranslations()` from `next-intl`. All user-facing strings in `messages/en.json` and `messages/de.json`.
 - **Styling:** TailwindCSS v4 with OKLCH color variables in `globals.css`. Use `cn()` from `lib/utils.ts`.
-- **`pnpm build`** skips type validation; TypeScript errors surface at compilation.
+- **`pnpm build`** skips type validation (`typescript.ignoreBuildErrors: true` in `next.config.mjs`); TypeScript errors surface only at compilation.
 
 ## Environment Variables
 
