@@ -21,7 +21,7 @@
     "subtitle": "Ihre wichtigsten Entscheidungen sollten kein Ratespiel sein. Unser KI-Simulator modelliert echte Ergebnisse, damit Sie mit Klarheit wählen können.",
     "inputPlaceholder": "Sollte ich...",
     "simulate": "Simulieren",
-    "tryExample": "Fragen Sie was Sie wollen, beantworten Sie 3 kurze Fragen und erhalten Sie eine kostenlose Analyse",
+    "tryExample": "Fragen Sie, was Sie wollen, beantworten Sie 3 kurze Fragen und erhalten Sie eine kostenlose Analyse",
     "freeHint": "Melden Sie sich an für tiefere Analysen, Ergebnisse speichern und Szenarien vergleichen",
     "advisorLabel": "Berater",
     "autoAssigned": "Automatisch",
@@ -550,7 +550,7 @@
     },
     "buyRent": {
       "title": "Kaufen vs. Mieten",
-      "description": "Eine der grössten finanziellen Entscheidungen Ihres Lebens. Dieses Szenario vergleicht die langfristigen finanziellen Auswirkungen eines Hauskaufs mit dem Weitermieten, unter Berücksichtigung von Immobilienpreisen, Zinssätzen, Markttrends und Ihrem persönlichen Zeithorizont."
+      "description": "Eine der größten finanziellen Entscheidungen Ihres Lebens. Dieses Szenario vergleicht die langfristigen finanziellen Auswirkungen eines Hauskaufs mit dem Weitermieten, unter Berücksichtigung von Immobilienpreisen, Zinssätzen, Markttrends und Ihrem persönlichen Zeithorizont."
     },
     "relocate": {
       "title": "In eine neue Stadt ziehen",
@@ -558,7 +558,7 @@
     },
     "custom": {
       "title": "Jedes Szenario ist möglich",
-      "description": "Das sind nur die Ausgangspunkte. Mit shouldi können Sie jede Entscheidung in Ihren eigenen Worten beschreiben — von der Gründung eines Unternehmens über eine Rückkehr zur Ausbildung bis hin zu einem Sabbatjahr oder einer grossen Investition — und unsere KI erstellt eine personalisierte Simulation für Ihre individuelle Situation."
+      "description": "Das sind nur die Ausgangspunkte. Mit shouldi können Sie jede Entscheidung in Ihren eigenen Worten beschreiben — von der Gründung eines Unternehmens über eine Rückkehr zur Ausbildung bis hin zu einem Sabbatjahr oder einer großen Investition — und unsere KI erstellt eine personalisierte Simulation für Ihre individuelle Situation."
     }
   },
   "aboutPage": {
