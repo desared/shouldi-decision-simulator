@@ -267,7 +267,9 @@
   animation-delay: 5s;
 }
 
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
+/* Smooth scroll for in-page anchors only — avoids animated scroll on route changes */
+@media (prefers-reduced-motion: no-preference) {
+  :has(:target) {
+    scroll-behavior: smooth;
+  }
 }
